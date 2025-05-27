@@ -1,0 +1,102 @@
+.SideBar {
+    position: fixed;
+    top: 0;
+    right: -70%; /* Start off-screen from the right */
+    width: 20%; 
+    height: 100vh;
+    background-color: var(--background-tertiary); /* Dark background */
+    color: var(--text-primary);
+    padding: 20px;
+    transition: all 0.3s ease-in-out;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    box-shadow: -5px 0 15px var(--shadow-color);
+}
+
+.SideBar.active {
+    right: 0; /* Slide in from the right */
+}
+
+.SideBar img {
+    margin-top: 60px; /* Space for the X button */
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: left;}
+
+.SideBar p{
+    font-family: "Pathway Gothic One", sans-serif;
+    font-weight: 400; /* Regular */
+    margin-bottom: 20px;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    text-align: justify;
+    margin: 10px;
+}
+
+.sidebar-content {
+    padding: 0 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-info {
+    margin: 5px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.social-media-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.social-media-icons a {
+    color: var(--brand-color); /* Pink color matching logo */
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.social-media-icons a:hover {
+    color: var(--text-primary);
+}
+
+.copyright {
+    margin-top: auto;
+    font-size: 12px;
+    color: var(--text-tertiary);
+}
+
+.close-sidebar-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    opacity: 0; /* Start invisible */
+    transform: scale(0.8); /* Start slightly smaller */
+    transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s; /* 0.2s delay */
+    pointer-events: none; /* Ignore clicks when invisible */
+}
+
+
+
+/* Make close button visible when sidebar is active */
+.SideBar.active ~ .close-sidebar-button,
+.SideBar.active + .close-sidebar-button {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto; /* Re-enable clicks */
+}

@@ -1,0 +1,110 @@
+.nutri-agenda-page {
+    width: calc(100% - 200px);
+    max-width: 1300px;
+    margin: 2rem auto;
+    padding: 2rem;
+    color: var(--text-primary);
+}
+
+.nutri-agenda-image {
+  max-width: 1450px;
+  height: 700px;
+  margin: 5px auto 20px auto;
+  background: var(--brand-color-medium);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 20px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* alinha horizontalmente */
+  justify-content: center; /* opcional: centraliza verticalmente */
+  text-align: center;
+}
+
+
+.nutri-agenda-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-family: Montserrat, sans-serif;
+
+}
+
+.nutri-agenda-title h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: Montserrat, sans-serif;
+}
+
+.nutri-agenda-description {
+    margin:0 6rem;
+    display: flex;
+    
+}
+
+.nutri-agenda-description h1 {
+    font-size: 3.5rem;
+    font-weight: 600;
+    margin:2rem 4rem 0 2rem;
+    font-family: Montserrat, sans-serif;
+    text-align: start;
+    line-height: 4rem;
+}
+
+.nutri-agenda-text {
+    max-width: 900px;
+    margin: 0;
+}
+
+.nutri-agenda-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    text-align: justify;
+    font-family: Montserrat, sans-serif;
+    padding-left: 4rem;
+}
+
+.forms-select {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.8rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--brand-color);
+    font-family: Montserrat, sans-serif;
+}
+
+.forms-select option {
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+    padding: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+    .nutri-agenda-page {
+        width: calc(100% - 100px);
+    }
+}
+
+@media (max-width: 768px) {
+    .nutri-agenda-page {
+        width: calc(100% - 40px);
+        padding: 1rem;
+    }
+
+    .nutri-agenda-title h1 {
+        font-size: 2rem;
+    }
+
+    .nutri-agenda-description h1 {
+        font-size: 1.75rem;
+    }
+
+    .nutri-agenda-text p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+}

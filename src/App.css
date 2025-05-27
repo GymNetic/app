@@ -1,0 +1,46 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+}
+
+main {
+  flex: 1; 
+}
+
+.mensalidades-main-title {
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-family: Montserrat, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 10px 100px;
+}
+
+.mensalidades-main-description {
+  font-size: 24px;
+  color: var(--text-secondary);
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  margin: 0px 120px;
+}
+
+.aulas-main-title {
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-family: Montserrat, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 10px 100px;
+}
+
+.aulas-main-description {
+  font-size: 18px;
+  color: var(--text-secondary);
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  margin: 10px 100px;
+  line-height: 1.8;
+}

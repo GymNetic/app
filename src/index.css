@@ -1,0 +1,7 @@
+@import './colors.css';
+
+body {
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove paddings padrão */
+    background: var(--background-primary); /* Usar variável de cor de fundo */
+  }

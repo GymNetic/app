@@ -1,0 +1,152 @@
+.footer-section.centrada {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  flex: 1; /* Permite crescer e ocupar o espaço disponível */
+  padding: 0;
+  margin: 0;
+}.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: linear-gradient(to right, var(--background-secondary), var(--background-tertiary));
+  padding: 20px 40px;
+  color: var(--text-primary);
+  flex-wrap: wrap;
+}
+
+.footer-section {
+  align-self: center;
+  margin: 0; /* Remove default margins */
+  padding: 0; /* Remove default padding */
+}
+
+.footer-section.left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 16px;
+  justify-content: center;
+  height: 100%;
+  margin-right: 0; /* Remove right margin */
+  flex: 0 0 auto; /* Não cresce, não encolhe, tamanho automático baseado no conteúdo */
+}
+
+.footer-section.left img {
+  margin-bottom: 12px;
+  display: block;
+  align-self: flex-start;
+}
+
+.social-media-icons {
+  display: flex;
+  gap: 12px;
+  align-self: flex-start;
+}
+
+.footer-section.center {
+  padding-left: 0; /* Remove left padding */
+  margin-left: 0; /* Remove left margin */
+  flex: 0 0 auto; /* Não cresce, tamanho baseado no conteúdo */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinha todos os elementos à esquerda */
+}
+
+.footer-section.center h3 {
+  color: var(--text-primary);
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-family: "Pathway Gothic One", sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  margin-top: 0; /* Remove top margin */
+  margin-bottom: 16px; /* Espaçamento consistente abaixo do título */
+  padding-left: 0; /* Garante que não haja padding à esquerda */
+  align-self: flex-start; /* Garante alinhamento à esquerda */
+}
+
+.footer-section.right {
+  flex: 0 0 auto;
+  align-self: center;
+  margin-left: auto;
+}
+
+.footer-section.right p {
+  font-family: "Pathway Gothic One", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  align-self: center;
+  color: var(--text-primary);
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  gap: 40px; /* Espaçamento entre as listas */
+}
+
+.links ul {
+  display: flex;
+  flex-direction: column; /* Itens na vertical */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.links ul li {
+  position: relative;
+  margin-bottom: 10px; /* Espaçamento vertical entre itens */
+}
+
+.links ul li a {
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-family: "Pathway Gothic One", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+}
+
+.links ul li a:hover {
+  background: var(--background-tertiary);
+}
+
+.social-media-icons a {
+  color: var(--text-primary);
+  font-size: 24px;
+  transition: color 0.3s ease;
+}
+
+.social-media-icons a:hover {
+  color: var(--brand-color);
+}
+
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .footer-section {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .footer-section.left, .footer-section.center {
+    align-items: center;
+  }
+  
+  .links {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .footer-section.right {
+    margin-left: 0;
+  }
+}
