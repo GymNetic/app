@@ -1,21 +1,9 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
 import './ExerciciosPage.css';
 import ClassSlider from "../../components/ClassSlider/ClassSlider.jsx";
 import ExerciciosData from "../../data/ExerciciosData.js";
 
 function ExerciciosPage() {
-
-    const navigate = useNavigate();
-
-    const handleClassClick = (classData) => {
-        navigate(`/exercicios/${classData.title.toLowerCase()}`, {
-            state: {
-                classTitle: classData.title,
-                classData: classData
-            }
-        });
-    };
 
     return (
         <div>

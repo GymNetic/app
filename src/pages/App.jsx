@@ -11,6 +11,7 @@ import NutriAgendaPage from './Profissionais/NutriAgendaPage.jsx';
 import PTAgendaPage from './Profissionais/PTAgendaPage.jsx';
 import Login from './User/Login.jsx';
 import ExerciciosPage from "./exercicios/ExerciciosPage.jsx";
+import TipoExPage from './exercicios/TipoExPage.jsx';
 import ThemeToggle from '../components/ThemeToggle.jsx';
 import classData from '../data/classData.js'; // Importa os dados das aulas
 import PlanosData from '../data/PlanosData.js'; // Importa os dados das mensalidades
@@ -66,6 +67,7 @@ function App() {
             <Route path="/Login" element={<Login />} />
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/ExerciciosPage" element={<ExerciciosPage />} />
+            <Route path="/exercicios/:tipo" element={<TipoExPage />} />
         </Routes>
     );
 }

@@ -20,7 +20,7 @@
     font-size: 1rem;
     border: 2px solid var(--brand-color);
     border-radius: 8px;
-    background-color: var(--background-tertiary);
+    background-color: var(--background-primary);
     color: var(--text-primary);
     cursor: pointer;
     min-width: 200px;
@@ -72,10 +72,9 @@
 .schedule-wrapper {
     background: var(--background-primary);
     box-shadow: 0 2px 10px var(--shadow-color);
-    overflow: hidden;
+    overflow: hidden; /* <- Remover ou mudar */
     border: 2px solid var(--brand-color);
 }
-
 .schedule-grid {
     display: grid;
     grid-template-columns: 80px repeat(7, 1fr);
@@ -98,7 +97,7 @@
 
 .hour-cell {
     padding: 0.5rem;
-    background: var(--background-secondary);
+    background: var(--background-primary);
     border-right: 1px solid var(--border-color);
     text-align: center;
     font-weight: 500;
@@ -130,6 +129,7 @@
 
 .event-card {
     position: relative;
+    z-index: 5;
     background-color: var(--brand-color);
     color: white;
     border-radius: 4px;
@@ -143,8 +143,8 @@
     font-family: Montserrat, sans-serif;
     cursor: pointer;
 }
-
 .event-basic {
+    position: relative;
     z-index: 1;
 }
 
@@ -160,12 +160,13 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    z-index: 10;
+    z-index: 20; /* Aumentado para garantir que fique acima */
     font-size: 0.85rem;
 }
 
 .event-details p {
     margin: 0.5rem 0;
+    color: var(--text-primary);
 }
 
 .event-card:hover {

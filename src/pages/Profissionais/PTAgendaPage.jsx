@@ -15,9 +15,13 @@ function PTAgendaPage() {
 
   return (
     <div className="pt-agenda-page">
-        <div className="pt-agenda-title">
-            <h1>OS NOSSOS PTS</h1>
+        <div className="pt-agenda-image">
+            <img src="https://www.nutri.pt/wp-content/uploads/2020/01/nutricionista.jpg" alt="Nutricionista" />
+            <div className="pt-agenda-title">
+                <h1>OS NOSSOS PTS</h1>
+            </div>
         </div>
+
         <div className="pt-agenda-description">
             <h1>Marcar Avaliação Física</h1>
             <div className="pt-agenda-text">

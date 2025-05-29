@@ -1,64 +1,72 @@
-.ex-card {
+/* ExCard.css */
+
+.ex-card-container {
   display: flex;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 16px;
-  overflow: hidden;
-  max-width: 800px;
+  justify-content: center;
+  margin: 3rem 0;
 }
 
-.ex-card-image {
-  width: 200px;
-  min-width: 200px;
+.ex-card {
+  display: flex;
+  align-items: center;
+  background-color: #aaa; /* cinza como no fundo da imagem */
+  padding: 16px;
+  width: 90%;
+  height: 8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .ex-card-image img {
-  width: 100%;
-  height: 100%;
+  width: 10rem;
+  height: 100px;
   object-fit: cover;
+  background-color: #f2f2f2;
 }
 
 .ex-card-content {
-  padding: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  margin-left: 16px;
+  flex-grow: 1;
 }
 
 .ex-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+  align-items: baseline;
+}
+
+.ex-card-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #000;
 }
 
 .ex-card-type {
-  background: #f0f0f0;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.9em;
+  font-size: 1rem;
+  color: #000;
 }
 
 .ex-card-desc {
-  margin-bottom: 16px;
-  color: #666;
+  margin: 4px 0 8px;
+  color: #111;
 }
 
 .like-button {
-  align-self: flex-start;
-  padding: 8px 16px;
+  align-self: flex-end;
+  background: none;
   border: none;
-  border-radius: 4px;
+  font-size: 1rem;
   cursor: pointer;
-  background: #f0f0f0;
-  transition: all 0.2s;
-}
-
-.like-button.liked {
-  background: #ffe6e6;
+  color: #000;
+  transition: transform 0.2s ease;
 }
 
 .like-button:hover {
-  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.like-button.liked {
+  color: red;
 }
