@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import './ClassSlider.css';
 import BtnSlider from '../Slider/BtnSlider';
-import dataClasses from './DataClass';
+import { Link } from 'react-router-dom'; // Adicione este import
 
-function ClassSlider() {
+function ClassSlider({ data = [], classesPerSlide = 3, title }) {
     const [slideIndex, setSlideIndex] = useState(0);
-    const classesPerSlide = 3;
-    
-    const extendedClasses = [...dataClasses, ...dataClasses.slice(0, classesPerSlide)];
+
+    const extendedClasses = [...data, ...data.slice(0, classesPerSlide)];
     const totalSlides = Math.ceil(extendedClasses.length / classesPerSlide);
 
     const nextSlide = () => {
@@ -28,34 +27,37 @@ function ClassSlider() {
 
     return (
         <div className="class-slider">
+            {title && <h1 className="slider-title">{title}</h1>}
             <div className="class-slider-container">
-                <div 
-                    className="class-slider-wrapper" 
-                    style={{ 
+                <div
+                    className="class-slider-wrapper"
+                    style={{
                         transform: `translateX(-${slideIndex * (100/totalSlides)}%)`,
                         width: `${totalSlides * 100}%`
                     }}
                 >
                     {Array.from({ length: totalSlides - 1 }).map((_, slideIdx) => (
-                        <div 
-                            key={slideIdx} 
+                        <div
+                            key={slideIdx}
                             className="class-slide"
                             style={{ width: `${100/totalSlides}%` }}
                         >
                             <div className="class-slide-content">
                                 {extendedClasses
                                     .slice(slideIdx * classesPerSlide, (slideIdx + 1) * classesPerSlide)
-                                    .map((classItem) => (
-                                        <div key={classItem.id} className="class-card-container">
-                                            <div 
-                                                className="class-card"
-                                                style={{
-                                                    backgroundImage: `url(${classItem.image})`,
-                                                    backgroundSize: 'cover',
-                                                    backgroundPosition: 'center'
-                                                }}
-                                            />
-                                            <h2 className="class-title">{classItem.title}</h2>
+                                    .map((item) => (
+                                        <div key={item.id} className="class-card-container">
+                                            <Link to={item.link} className="class-card-link">
+                                                <div
+                                                    className="class-card"
+                                                    style={{
+                                                        backgroundImage: `url(${item.image})`,
+                                                        backgroundSize: 'cover',
+                                                        backgroundPosition: 'center'
+                                                    }}
+                                                />
+                                                <h2 className="class-title">{item.title}</h2>
+                                            </Link>
                                         </div>
                                     ))}
                             </div>

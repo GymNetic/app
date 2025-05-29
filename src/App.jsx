@@ -4,7 +4,9 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import NutriAgendaPage from './pages/Profissionais/NutriAgendaPage';
-// ...other page imports
+import PTAgendaPage from './pages/Profissionais/PTAgendaPage';
+import login from './pages/User/Login.jsx';
+import ExerciciosPage from './pages/exercicios/ExerciciosPage.jsx';
 
 function App() {
   return (
@@ -12,8 +14,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/NutriAgendaPage" element={<NutriAgendaPage />} />
-        {/* ...other routes */}
+        <Route path="/NutriAgenda" element={<NutriAgendaPage />} />
+          <Route path="/PTAgenda" element={<PTAgendaPage />} />
+        <Route path="/login" element={<login />} />
+        <Route path="/Exercicios" element={<ExerciciosPage />} />
       </Routes>
       <Footer />
     </div>

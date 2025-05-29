@@ -5,32 +5,32 @@ let recentImages = [];
 const getRandomImage = () => {
     const totalImages = 9;
     const maxRecent = 3; // How many recent images to track
-    
+
     // Generate array of available numbers (1-9)
     let available = Array.from({length: totalImages}, (_, i) => i + 1);
-    
+
     // Remove recently used images from available options
     available = available.filter(num => !recentImages.includes(num));
-    
+
     // If we've filtered out all options, reset and use any number
     if (available.length === 0) {
         available = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     }
-    
+
     // Get random number from available options
     const randomIndex = Math.floor(Math.random() * available.length);
     const selectedNumber = available[randomIndex];
-    
+
     // Update recent images
     recentImages.push(selectedNumber);
     if (recentImages.length > maxRecent) {
         recentImages.shift(); // Remove oldest image
     }
-    
+
     return `/Imgs/classes/${selectedNumber}.jpg`;
 };
 
-const dataClasses = [
+const ClassData = [
     {
         id: 1,
         title: "Yoga",
@@ -153,4 +153,4 @@ const dataClasses = [
     }
 ];
 
-export default dataClasses;
+export default ClassData;

@@ -18,9 +18,9 @@ function NutriAgendaPage() {
     <div className="nutri-agenda-page">
         <div className="nutri-agenda-image">
             <img src="https://www.nutri.pt/wp-content/uploads/2020/01/nutricionista.jpg" alt="Nutricionista" />
-        <div className="nutri-agenda-title">
-            <h1>OS NOSSOS NUTRICIONISTAS</h1>
-        </div>
+            <div className="nutri-agenda-title">
+                <h1>OS NOSSOS NUTRICIONISTAS</h1>
+            </div>
         </div>
         <div className="nutri-agenda-description">
             <h1>Marcar Avaliação Nutricional</h1>

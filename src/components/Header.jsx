@@ -8,11 +8,6 @@ import { SlSettings } from "react-icons/sl";
 import { SlBell } from "react-icons/sl";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { SlUser } from "react-icons/sl";
-import { SlSocialFacebook } from "react-icons/sl";
-import { SlSocialInstagram } from "react-icons/sl";
-import { SlSocialLinkedin } from "react-icons/sl";
-import { SlSocialTwitter } from "react-icons/sl";
-import { SlSocialYoutube } from "react-icons/sl";
 import { IconContext } from "react-icons";
 import { IoClose } from "react-icons/io5";
 import SideBar from "./SideBar";
@@ -95,9 +90,12 @@ function Header() {
                             className="dropdown-item"
                             onMouseEnter={() => handleMouseEnter('treino')}
                         >
-                            <Link to="/PTAgendaPage">TREINO</Link>
+                            <Link to="/ExerciciosPage">TREINO</Link>
                         </li>
-                        <li>
+                        <li
+                            className="dropdown-item"
+                            onMouseEnter={() => handleMouseEnter('alimentacao')}
+                        >
                             <Link to="/NutriAgendaPage">ALIMENTAÇÃO</Link>
                         </li>
                         <li>
@@ -110,7 +108,7 @@ function Header() {
                         <ul>
                             <li><Link to="/settings"><SlSettings /></Link></li>
                             <li><Link to="/notifications"><SlBell /></Link></li>
-                            <li><Link to="/profile"><SlUser /></Link></li>
+                            <li><Link to="/login"><SlUser /></Link></li>
                             <li 
                                 className="hamburger-menu"
                                 onClick={toggleSidebar}

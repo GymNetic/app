@@ -1,0 +1,118 @@
+.user-area-image {
+    height: 700px;
+    margin: 3rem;
+    background: var(--brand-color-medium);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 20px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* alinha horizontalmente */
+    justify-content: center; /* opcional: centraliza verticalmente */
+    text-align: center;
+}
+
+
+.user-area-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-family: Montserrat, sans-serif;
+
+}
+
+.user-area-title h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: Montserrat, sans-serif;
+}
+
+
+.login-forms {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    margin: 3rem;
+    padding: 2rem;
+}
+
+.login-forms h1 {
+    text-align: start;
+    padding: 3rem;
+    font-size: 1.7rem;
+    margin-bottom: 1.5rem;
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+}
+
+.login-forms-container {
+    margin-bottom: 1.5rem;
+}
+
+.login-forms-input label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+    color: #333;
+    font-family: Montserrat, sans-serif;
+    font-size: 20px;
+}
+
+.login-forms-input input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #fafafa;
+    transition: border 0.2s;
+}
+
+.login-forms-input input:focus {
+    border: 1.5px solid var(--brand-color-medium, #6c63ff);
+    outline: none;
+}
+
+.login-forms-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.login-forms-button {
+    color: black;
+    border: none;
+    padding: 15px 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.login-forms-button:hover {
+    color: var(--text-primary);
+    box-shadow: inset 0 0 0 3px var(--brand-color);
+    border-radius: 5px;
+    background: var(--background-primary);
+}
+
+.login-link {
+    color: var(--text-primary);
+    font-size: 18px;
+    transition: color 0.3s ease;
+    font-family: Montserrat, sans-serif;
+    font-weight: 300;
+    margin-top: 1rem;
+    text-decoration: underline;
+}
+
+.login-link:hover {
+    color: var(--brand-color);
+    text-decoration: underline;
+}
