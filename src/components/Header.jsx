@@ -104,7 +104,7 @@ function Header() {
                     </ul>
                 </nav>
                 <nav>
-                    <IconContext.Provider value={{ size: '2em', className: isScrolled ? 'icon icon-scrolled' : 'icon' }}>
+                    <IconContext.Provider value={{ size: '1.5em', className: isScrolled ? 'icon icon-scrolled' : 'icon' }}>
                         <ul>
                             <li><Link to="/settings"><SlSettings /></Link></li>
                             <li><Link to="/notifications"><SlBell /></Link></li>

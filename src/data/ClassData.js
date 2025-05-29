@@ -34,7 +34,7 @@ const ClassData = [
     {
         id: 1,
         title: "Yoga",
-        description: "Aumente sua flexibilidade e equilíbrio",
+        desc: "Aumente sua flexibilidade e equilíbrio",
         image: getRandomImage(),
         instructor: "Maria Silva",
         duration: "50 min",
@@ -44,7 +44,7 @@ const ClassData = [
     {
         id: 2,
         title: "CrossFit",
-        description: "Treino de alta intensidade",
+        desc: "Treino de alta intensidade",
         image: getRandomImage(),
         instructor: "João Santos",
         duration: "45 min",
@@ -54,7 +54,7 @@ const ClassData = [
     {
         id: 3,
         title: "Spinning",
-        description: "Cardio intenso com música",
+        desc: "Cardio intenso com música",
         image: getRandomImage(),
         instructor: "Carlos Santos",
         duration: "45 min",
@@ -64,7 +64,7 @@ const ClassData = [
     {
         id: 4,
         title: "Pilates",
-        description: "Fortaleça seu core",
+        desc: "Fortaleça seu core",
         image: getRandomImage(),
         instructor: "Pedro Lima",
         duration: "50 min",
@@ -74,7 +74,7 @@ const ClassData = [
     {
         id: 5,
         title: "Zumba",
-        description: "Dança e diversão",
+        desc: "Dança e diversão",
         image: getRandomImage(),
         instructor: "Ana Costa",
         duration: "55 min",
@@ -84,7 +84,7 @@ const ClassData = [
     {
         id: 6,
         title: "Body Pump",
-        description: "Musculação em grupo",
+        desc: "Musculação em grupo",
         image: getRandomImage(),
         instructor: "Ana Paula",
         duration: "60 min",
@@ -94,7 +94,7 @@ const ClassData = [
     {
         id: 7,
         title: "HIIT",
-        description: "Treino rápido e eficaz para queimar gordura",
+        desc: "Treino rápido e eficaz para queimar gordura",
         image: getRandomImage(),
         instructor: "Ricardo Alves",
         duration: "30 min",
@@ -104,7 +104,7 @@ const ClassData = [
     {
         id: 8,
         title: "Alongamento",
-        description: "Relaxe os músculos e melhore sua postura",
+        desc: "Relaxe os músculos e melhore sua postura",
         image: getRandomImage(),
         instructor: "Sofia Ribeiro",
         duration: "40 min",
@@ -114,7 +114,7 @@ const ClassData = [
     {
         id: 9,
         title: "Step",
-        description: "Cardio com movimentos coreografados",
+        desc: "Cardio com movimentos coreografados",
         image: getRandomImage(),
         instructor: "Tiago Mendes",
         duration: "50 min",
@@ -124,7 +124,7 @@ const ClassData = [
     {
         id: 10,
         title: "Kickboxing",
-        description: "Treino de defesa pessoal e resistência",
+        desc: "Treino de defesa pessoal e resistência",
         image: getRandomImage(),
         instructor: "Fernando Lopes",
         duration: "60 min",
@@ -134,7 +134,7 @@ const ClassData = [
     {
         id: 11,
         title: "Funcional",
-        description: "Treino completo com movimentos naturais",
+        desc: "Treino completo com movimentos naturais",
         image: getRandomImage(),
         instructor: "Daniela Nunes",
         duration: "45 min",
@@ -144,7 +144,7 @@ const ClassData = [
     {
         id: 12,
         title: "Dance Mix",
-        description: "Dança com diferentes estilos musicais",
+        desc: "Dança com diferentes estilos musicais",
         image: getRandomImage(),
         instructor: "Beatriz Lopes",
         duration: "50 min",
