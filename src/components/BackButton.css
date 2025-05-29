@@ -1,9 +1,8 @@
 .back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+    position: relative;
     background: none;
-    border: none;
+    border: 2px solid var(--text-primary);
+    border-radius: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;

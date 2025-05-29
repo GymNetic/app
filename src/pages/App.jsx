@@ -9,13 +9,16 @@ import ScheduleGrid from '../components/ScheduleGrid.jsx';
 import ClassSlider from '../components/ClassSlider/ClassSlider.jsx';
 import NutriAgendaPage from './Profissionais/NutriAgendaPage.jsx';
 import PTAgendaPage from './Profissionais/PTAgendaPage.jsx';
+import HorariosPage from './aulas/HorariosPage.jsx';
 import Login from './User/Login.jsx';
 import ExerciciosPage from "./exercicios/ExerciciosPage.jsx";
+import AulasCatPage from './aulas/AulasCatPage.jsx';
 import TipoExPage from './exercicios/TipoExPage.jsx';
 import ThemeToggle from '../components/ThemeToggle.jsx';
 import classData from '../data/classData.js'; // Importa os dados das aulas
 import PlanosData from '../data/PlanosData.js'; // Importa os dados das mensalidades
 import cardsData from '../data/cardsData.js'; // Importa os dados dos cartões horizontais
+
 
 function App() {
     const HomePage = () => (
@@ -68,6 +71,10 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/ExerciciosPage" element={<ExerciciosPage />} />
             <Route path="/exercicios/:tipo" element={<TipoExPage />} />
+            <Route path="/AulasCatPage" element={<AulasCatPage />} />
+            <Route path="/HorariosPage" element={<HorariosPage />} />
+            <Route path="/AulasCatPage" element={<AulasCatPage />} />
+            <Route path="/MensalidadeFormsPage" element={<MensalidadeFormsPage />} />
         </Routes>
     );
 }

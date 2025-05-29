@@ -9,7 +9,7 @@ import BackButton from "../../components/BackButton.jsx";
 import SearchBar from "../../components/SearchBar.jsx";
 
 function TipoExPage() {
-    const { tipo } = useParams(); // pega o tipo da URL
+    const { tipo } = useParams();
     const [filteredData, setFilteredData] = useState(null);
 
     // Encontra os dados do exercício atual
@@ -39,18 +39,23 @@ function TipoExPage() {
 
     return (
         <div>
-            <BackButton />
-            <div className="user-area-image">
+            <div className="bck-space">
+                <BackButton />
+            </div>
+
+            <div className="area-image">
                 <img src="https://www.nutri.pt/wp-content/uploads/2020/01/nutricionista.jpg" alt=" " />
                 <div className="user-area-title">
                     <p>Explora o melhor para ti</p>
                     <h1>{exercicioInfo.title}</h1>
                 </div>
             </div>
+
             <div className="search-area">
                 <h1 className="list-main-title">Lista de Exercícios</h1>
                 <SearchBar onSearch={handleSearch} />
             </div>
+
             <ExCard data={dataToDisplay}
                     classesPerSlide={dataToDisplay.length}/>
         </div>

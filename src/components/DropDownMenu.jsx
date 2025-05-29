@@ -11,7 +11,7 @@ function DropDownMenu({ type }) {
                     <li><a href="/PlanoTreinoP">Plano de Treino</a></li>                    
                 </ul>
                 <ul>
-                <li><a href="/AulasGrupoP">Aulas de Grupo</a></li>
+                <li><a href="/AulasCatPage">Aulas de Grupo</a></li>
                     <li><a href="/HorariosAGP">Horários Aulas</a></li>
                 </ul>
                 <ul>
