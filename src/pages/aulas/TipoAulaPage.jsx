@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
 import BackButton from "../../components/BackButton.jsx";
 import SearchBar from "../../components/SearchBar.jsx";
-import ExCard from "../../components/ExCard.jsx";
+import ClassSlider from "../../components/ClassSlider/ClassSlider.jsx";
 
 function TipoAulaPage() {
     const { tipo } = useParams();
@@ -34,8 +34,6 @@ function TipoAulaPage() {
         setFilteredData(filtered);
     };
 
-    const dataToDisplay = filteredData === null ? aulaData : filteredData;
-
     return (
         <div>
             <div className="bck-space">
@@ -54,9 +52,14 @@ function TipoAulaPage() {
                 <h1 className="list-main-title">Lista de Aulas</h1>
                 <SearchBar onSearch={handleSearch} />
             </div>
-            <div>
-                <ExCard>{aulaData}</ExCard>
-            </div>
+            <ClassSlider
+                data={(filteredData || aulaData).map(item => ({
+                    ...item,
+                    title: item.name,
+                    desc: null// Adiciona o título da categoria de aula
+                }))}
+                classesPerSlide={3}
+            />
         </div>
 
     );

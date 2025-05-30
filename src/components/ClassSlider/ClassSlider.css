@@ -79,13 +79,16 @@
     text-shadow:  1px 1px 6px black;
 }
 .card-description{
+    opacity: 1;
     color: white !important;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-family: Montserrat, sans-serif;
+    text-transform: uppercase;
     text-align: center;
     margin: 10px 0;
     text-shadow:  1px 1px 6px black;
 }
+
 
 /* Navigation arrows */
 .class-slider-nav {
