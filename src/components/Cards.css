@@ -16,9 +16,9 @@
   position: relative;
   overflow: hidden;
   transform: skewX(-6deg);
-  width: 33.333%;
   cursor: pointer;
   margin: 20px;
+  width: 350px;
 }
 
 .card-image-container {

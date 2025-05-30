@@ -6,7 +6,7 @@ function HorariosPage() {
         <div className="horarios-page">
             <div className="horarios-header">
                 <h1>Horários de Aulas</h1>
-                <p>Consulte nossos horários semanais e planeje seus treinos</p>
+                <p>Consulta os nossos horários semanais e planeia os teus treinos</p>
             </div>
             <ScheduleGrid/>
         </div>

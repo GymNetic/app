@@ -1,57 +1,42 @@
 import React, { useState } from "react";
 import "./ScheduleGrid.css";
+import TipoAulaData from "../data/TipoAulaData.js";
 
 const days = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
-const morningHours = Array.from({ length: 8 }, (_, i) => `${6 + i}:00`);
+const morningHours = Array.from({ length: 8 }, (_, i) => `0${6 + i}:00`);
 const afternoonHours = Array.from({ length: 9 }, (_, i) => `${14 + i}:00`);
 
-const classTypes = ["Todas as Aulas", "Yoga", "CrossFit", "Zumba", "Pilates", "Spinning", "Body Pump"];
+// Corrigir o array classTypes - TipoAulaData é um objeto, não um array
+const classTypes = ["Todas as Aulas"];
+Object.values(TipoAulaData).forEach(aulas => {
+  aulas.forEach(aula => {
+    if (!classTypes.includes(aula.name)) {
+      classTypes.push(aula.name);
+    }
+  });
+});
 
-const scheduleEvents = {
-  "Seg-6:00": {
-    type: "Yoga",
-    instructor: "Maria Silva",
-    duration: "50 min",
-    level: "Iniciante",
-    room: "Sala 1"
-  },
-  "Seg-7:00": {
-    type: "CrossFit",
-    instructor: "João Santos",
-    duration: "45 min",
-    level: "Avançado",
-    room: "Sala 2"
-  },
-  "Ter-8:00": {
-    type: "Zumba",
-    instructor: "Ana Costa",
-    duration: "55 min",
-    level: "Todos os níveis",
-    room: "Sala 1"
-  },
-  // Add afternoon classes
-  "Qua-14:00": {
-    type: "Pilates",
-    instructor: "Pedro Lima",
-    duration: "50 min",
-    level: "Intermediário",
-    room: "Sala 3"
-  },
-  "Qui-16:00": {
-    type: "Spinning",
-    instructor: "Carlos Santos",
-    duration: "45 min",
-    level: "Avançado",
-    room: "Sala 4"
-  },
-  "Sex-18:00": {
-    type: "Body Pump",
-    instructor: "Ana Paula",
-    duration: "60 min",
-    level: "Todos os níveis",
-    room: "Sala 2"
-  }
-};
+// Criar o objeto scheduleEvents com base no TipoAulaData
+const scheduleEvents = {};
+
+// Processar todos os tipos de aulas e seus horários
+Object.entries(TipoAulaData).forEach(([categoria, aulas]) => {
+  aulas.forEach(aula => {
+    aula.horarios.forEach(horario => {
+      // Extrair apenas o prefixo do dia (primeiros 3 caracteres)
+      const dia = horario.dia.substring(0, 3);
+      const key = `${dia}-${horario.hora}`;
+
+      scheduleEvents[key] = {
+        type: aula.name,
+        instructor: horario.professor,
+        duration: aula.duracao,
+        level: aula.intensidade,
+        room: horario.sala // Adicionando a sala ao objeto
+      };
+    });
+  });
+});
 
 export default function ScheduleGrid() {
   const [selectedClass, setSelectedClass] = useState("Todas as Aulas");

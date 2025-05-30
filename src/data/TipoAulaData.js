@@ -37,7 +37,7 @@ const TipoAulaData = {
             fotoProfessor: "joana-almeida.jpg",
             horarios: [
                 { dia: "Segunda-feira", hora: "20:00", sala: "Sala 3", professor: "Joana Almeida" },
-                { dia: "Quinta-feira", hora: "18:30", sala: "Sala 3", professor: "Joana Almeida" }
+                { dia: "Quinta-feira", hora: "18:00", sala: "Sala 3", professor: "Joana Almeida" }
             ]
         },
         {
