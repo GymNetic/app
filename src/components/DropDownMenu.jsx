@@ -12,7 +12,7 @@ function DropDownMenu({ type }) {
                 </ul>
                 <ul>
                 <li><a href="/AulasCatPage">Aulas de Grupo</a></li>
-                    <li><a href="/HorariosAGP">Horários Aulas</a></li>
+                    <li><a href="/HorariosPage">Horários Aulas</a></li>
                 </ul>
                 <ul>
                 <li><a href="/PTAgendaPage">Personal Trainer | Agendar</a></li>

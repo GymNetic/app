@@ -14,6 +14,7 @@ import Login from './User/Login.jsx';
 import ExerciciosPage from "./exercicios/ExerciciosPage.jsx";
 import AulasCatPage from './aulas/AulasCatPage.jsx';
 import TipoExPage from './exercicios/TipoExPage.jsx';
+import TipoAulaPage from './aulas/TipoAulaPage.jsx';
 import ThemeToggle from '../components/ThemeToggle.jsx';
 import classData from '../data/classData.js'; // Importa os dados das aulas
 import PlanosData from '../data/PlanosData.js'; // Importa os dados das mensalidades
@@ -73,7 +74,7 @@ function App() {
             <Route path="/exercicios/:tipo" element={<TipoExPage />} />
             <Route path="/AulasCatPage" element={<AulasCatPage />} />
             <Route path="/HorariosPage" element={<HorariosPage />} />
-            <Route path="/AulasCatPage" element={<AulasCatPage />} />
+            <Route path="/Aulas/:tipo" element={<TipoAulaPage />} />
             <Route path="/MensalidadeFormsPage" element={<MensalidadeFormsPage />} />
         </Routes>
     );

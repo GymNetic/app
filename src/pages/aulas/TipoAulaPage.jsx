@@ -1,10 +1,11 @@
-import './TipoExPage.css';
+import './TipoAulaPage.css';
 import TipoAulaData from "../../data/TipoAulaData.js";
 import AulasData from "../../data/AulasData.js";
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
 import BackButton from "../../components/BackButton.jsx";
 import SearchBar from "../../components/SearchBar.jsx";
+import ExCard from "../../components/ExCard.jsx";
 
 function TipoAulaPage() {
     const { tipo } = useParams();
@@ -52,6 +53,9 @@ function TipoAulaPage() {
             <div className="search-area">
                 <h1 className="list-main-title">Lista de Aulas</h1>
                 <SearchBar onSearch={handleSearch} />
+            </div>
+            <div>
+                <ExCard>{aulaData}</ExCard>
             </div>
         </div>
 

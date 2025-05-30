@@ -1,5 +1,5 @@
 const TipoAulaData = {
-    yoga: [
+    menteecorpo: [
         {
             name: "Yoga Flow",
             desc: "Sequência fluida de posturas com foco na respiração e relaxamento.",
@@ -80,7 +80,7 @@ const TipoAulaData = {
             ]
         }
     ],
-    funcional: [
+    altaintensidade: [
         {
             name: "Circuito Funcional",
             desc: "Treino por estações para melhorar força, agilidade e resistência.",

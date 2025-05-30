@@ -1,9 +1,9 @@
 const AulasData = [
     {
         id: 1,
-        title: "Aulas de Grupo",
-        slug: "grupo",
-        link: "/aulas/grupo"
+        title: "Dança",
+        slug: "danca",
+        link: "/aulas/danca"
     },
     {
         id: 2,
