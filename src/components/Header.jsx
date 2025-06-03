@@ -4,10 +4,10 @@ import DropDownMenu from "./DropDownMenu";
 import logo2 from "../logo/logo2.svg";
 import logowhite from "../logo/logowhite.svg";
 import "./Header.css";
-import { SlSettings } from "react-icons/sl";
-import { SlBell } from "react-icons/sl";
+import { MdNotificationsNone, MdNotificationsActive } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { SlUser } from "react-icons/sl";
+import { FaRegUser } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { IoClose } from "react-icons/io5";
 import SideBar from "./SideBar";
@@ -18,11 +18,29 @@ function Header() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const dropdownRef = useRef(null);
     const headerRef = useRef(null);
-   
+    const [temNotificacoesNaoLidas, setTemNotificacoesNaoLidas] = useState(false);
+    const [notifications, setNotifications] = useState([
+        { id: 1, message: "Nova mensagem", lida: false },
+        { id: 2, message: "Treino atualizado", lida: true },
+    ]);
+
+    useEffect(() => {
+        const notificacoesNaoLidas = notifications.some(notificacao => !notificacao.lida);
+        setTemNotificacoesNaoLidas(notificacoesNaoLidas);
+    }, [notifications]);
+
+    const marcarComoLidas = () => {
+        const notificacoesAtualizadas = notifications.map(n => ({
+            ...n,
+            lida: true
+        }));
+        setNotifications(notificacoesAtualizadas);
+    };
+
     const handleMouseEnter = (menuType) => {
         setActiveDropdown(menuType);
     };
-   
+
     const handleMouseLeave = () => {
         setActiveDropdown(null);
     };
@@ -46,7 +64,7 @@ function Header() {
 
         window.addEventListener('scroll', handleScroll);
         handleScroll();
-        
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
             document.body.classList.remove('scrolled');
@@ -65,7 +83,7 @@ function Header() {
             }
         };
         document.addEventListener('mouseover', handleMouseOutside);
-       
+
         return () => {
             document.removeEventListener('mouseover', handleMouseOutside);
         };
@@ -73,14 +91,14 @@ function Header() {
 
     return (
         <div className="header-container">
-            <header 
-                ref={headerRef} 
+            <header
+                ref={headerRef}
                 className={isScrolled ? "header-scrolled" : ""}
             >
                 <Link to="/">
-                    <img 
-                        src={isScrolled ? logowhite : logo2} 
-                        alt="Logo" 
+                    <img
+                        src={isScrolled ? logowhite : logo2}
+                        alt="Logo"
                         height={60}
                     />
                 </Link>
@@ -106,9 +124,17 @@ function Header() {
                 <nav>
                     <IconContext.Provider value={{ size: '1.5em', className: isScrolled ? 'icon icon-scrolled' : 'icon' }}>
                         <ul>
-                            <li><Link to="/notifications"><SlBell /></Link></li>
-                            <li><Link to="/login"><SlUser /></Link></li>
-                            <li 
+                            <li>
+                                <Link to="/notificacoesPage" onClick={marcarComoLidas}>
+                                    {temNotificacoesNaoLidas ? (
+                                        <MdNotificationsActive className={`icon notification-icon-active ${isScrolled ? 'icon-scrolled' : ''}`} />
+                                    ) : (
+                                        <MdNotificationsNone className="icon" size="32px" />
+                                    )}
+                                </Link>
+                            </li>
+                            <li><Link to="/login"><FaRegUser /></Link></li>
+                            <li
                                 className="hamburger-menu"
                                 onClick={toggleSidebar}
                             >
@@ -118,7 +144,7 @@ function Header() {
                     </IconContext.Provider>
                 </nav>
             </header>
-           
+
             {activeDropdown && (
                 <div
                     ref={dropdownRef}
@@ -131,9 +157,9 @@ function Header() {
             )}
 
             <SideBar show={isSidebarOpen} />
-            
+
             {isSidebarOpen && (
-                <button 
+                <button
                     className="close-sidebar-button"
                     onClick={toggleSidebar}
                 >

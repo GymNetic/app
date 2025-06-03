@@ -12,14 +12,17 @@ import PTAgendaPage from './Profissionais/PTAgendaPage.jsx';
 import HorariosPage from './aulas/HorariosPage.jsx';
 import Login from './User/Login.jsx';
 import ExerciciosPage from "./exercicios/ExerciciosPage.jsx";
+import PlanoNutricionalPage from "./PlanoNutricionalPage.jsx";
 import AulasCatPage from './aulas/AulasCatPage.jsx';
 import AulaDetalhePage from "./aulas/AulaDetalhePage.jsx";
 import TipoExPage from './exercicios/TipoExPage.jsx';
 import TipoAulaPage from './aulas/TipoAulaPage.jsx';
 import ThemeToggle from '../components/ThemeToggle.jsx';
+import NotificacoesPage from './NotificacoesPage.jsx';
 import classData from '../data/classData.js'; // Importa os dados das aulas
 import PlanosData from '../data/PlanosData.js'; // Importa os dados das mensalidades
-import cardsData from '../data/cardsData.js'; // Importa os dados dos cartões horizontais
+import cardsData from '../data/cardsData.js';
+import PlanoTreinoPage from "./PlanoTreinoPage.jsx"; // Importa os dados dos cartões horizontais
 
 
 function App() {
@@ -34,6 +37,7 @@ function App() {
                         key={index}
                         index={card.id}
                         title={card.title}
+                        link={card.link}
                         description={card.description}
                         buttonText={card.buttonText}
                         videoLabel={card.videoLabel}
@@ -78,6 +82,9 @@ function App() {
             <Route path="/Aulas/:tipo" element={<TipoAulaPage />} />
             <Route path="/MensalidadeFormsPage" element={<MensalidadeFormsPage />} />
             <Route path="/Aulas/:tipo/:idx" element={<AulaDetalhePage />} />
+            <Route path="/notificacoesPage" element={<NotificacoesPage />} />
+            <Route path="/PlanoTreinoPage" element={<PlanoTreinoPage />} />
+                <Route path="/PlanoNutricionalPage" element={<PlanoNutricionalPage />} />
         </Routes>
     );
 }

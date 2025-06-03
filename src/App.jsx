@@ -10,6 +10,9 @@ import ExerciciosPage from './pages/exercicios/ExerciciosPage.jsx';
 import AulasCatPage from './pages/aulas/AulasCatPage.jsx';
 import TipoExPage from './exercicios/TipoExPage.jsx';
 import AulaDetalhePage from "./pages/aulas/AulaDetalhePage.jsx";
+import PlanoNutricionalPage from "./pages/PlanoNutricionalPage.jsx";
+import PlanoTreinoPage from './pages/PlanoTreinoPage';
+import NotificacoesPage from './pages/NotificacoesPage';
 
 function App() {
   return (
@@ -24,6 +27,9 @@ function App() {
         <Route path="/AulasCatPage" element={<AulasCatPage />} />
         <Route path="/exercicios/:tipo" element={<TipoExPage />} />
         <Route path="/aulas/:tipo/:index" element={<AulaDetalhePage />} />
+        <Route path="/notificacoesPage" element={<NotificacoesPage />} />
+          <Route path="/PlanoTreinoPage" element={<PlanoTreinoPage />} />
+          <Route path="/PlanoNutricionalPage" element={<PlanoNutricionalPage />} />
       </Routes>
       <Footer />
     </div>

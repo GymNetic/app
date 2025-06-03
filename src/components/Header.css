@@ -86,7 +86,7 @@ header.header-scrolled .icon {
 nav ul {
     display: flex;
     list-style: none;
-    gap: 20px;
+    gap: 15px;
     margin: 0;
     padding: 0;
     align-items: center; /* Center icons vertically */
@@ -185,6 +185,50 @@ header.header-scrolled .icon[color="#ff2783"] {
   box-shadow: 0 4px 8px var(--shadow-color);
   animation: fadeIn 0.2s ease-in-out;
   transition: top 0.3s ease; /* Smooth transition for dropdown position */
+}
+
+header nav .icon {
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header nav svg[class*="MdNotifications"] {
+    font-size: 1.8rem; /* Tamanho aumentado */
+}
+
+header.header-scrolled nav svg[class*="MdNotifications"] {
+    font-size: 1.6rem; /* Um pouco menor ao rolar, mas ainda maior que os outros ícones */
+}
+
+.notification-icon-active {
+    color: #ff2783;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    header nav svg[class*="MdNotifications"] {
+        font-size: 1.6rem;
+    }
+
+    header.header-scrolled nav svg[class*="MdNotifications"] {
+        font-size: 1.4rem;
+    }
 }
 
 /* Adjust dropdown position when header is scrolled */
@@ -329,3 +373,12 @@ header.header-scrolled + .full-width-dropdown,
         transform: scale(1);
     }
 }
+
+useEffect(() => {
+                  const verificarNotificacoes = () => {
+                  const notificacoesNaoLidas = notificacoes.some(notificacao => !notificacao.lida);
+              setTemNotificacoesNaoLidas(notificacoesNaoLidas);
+              };
+
+              verificarNotificacoes();
+              }, []);

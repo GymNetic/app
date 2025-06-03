@@ -1,0 +1,159 @@
+.bck-space {
+  padding: 20px 0 0 20px;
+}
+
+.aula-detalhe-header {
+  display: flex;
+  font-family: 'Montserrat', sans-serif;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 40px;
+  background-color: #f8f8f8;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.aula-detalhe-header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.aula-detalhe-header p {
+  color: #555;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+}
+
+.aula-detalhe-info {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  margin: 0 auto 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.aula-detalhe-info p {
+  margin: 0;
+  padding: 15px;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  border-left: 4px solid var(--brand-color);
+}
+
+.aula-detalhe-info strong {
+  color: var(--brand-color);
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1.1rem;
+}
+
+.aula-detalhe-horarios {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 1200px;
+  margin: 0 auto 40px;
+}
+
+.aula-detalhe-horarios h3 {
+  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--brand-color);
+}
+
+.aula-detalhe-horarios ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.aula-detalhe-horarios li {
+  background-color: #f8f8f8;
+  padding: 15px;
+  border-radius: 6px;
+  border-left: 4px solid var(--brand-color);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .aula-detalhe-header h1 {
+    font-size: 2rem;
+  }
+
+  .aula-detalhe-info {
+    grid-template-columns: 1fr;
+  }
+
+  .aula-detalhe-horarios ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .aula-detalhe-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .aula-detalhe-header p {
+    font-size: 1rem;
+  }
+
+  .bck-space {
+    padding: 15px 0 0 15px;
+  }
+}/* Aplicação global da fonte */
+.aula-detalhe-header,
+.aula-detalhe-info,
+.aula-detalhe-horarios {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Ajustes específicos para títulos e texto */
+.aula-detalhe-header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.aula-detalhe-horarios h3 {
+  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--brand-color);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Para garantir que o texto da descrição também use a fonte */
+.aula-detalhe-header p {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+}
+
+/* Elementos de informação também com a fonte */
+.aula-detalhe-info strong {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}

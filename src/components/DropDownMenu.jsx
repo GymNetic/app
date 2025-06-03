@@ -8,7 +8,7 @@ function DropDownMenu({ type }) {
           <div className="dropdown-section">
             <ul>
                     <li><a href="/ExerciciosPage">Exercícios</a></li>
-                    <li><a href="/PlanoTreinoP">Plano de Treino</a></li>                    
+                    <li><a href="/PlanoTreinoPage">Plano de Treino</a></li>
                 </ul>
                 <ul>
                 <li><a href="/AulasCatPage">Aulas de Grupo</a></li>
@@ -24,7 +24,7 @@ function DropDownMenu({ type }) {
             <div className="dropdown-content">
             <div className="dropdown-section">
                 <ul>
-                        <li><a href="/PlanoNutriP">Plano Nutricional</a></li>
+                        <li><a href="/PlanoNutricionalPage">Plano Nutricional</a></li>
                         <li><a href="/NutriAgendaPage">Avaliação Nutricional | Agendar</a></li>
                     </ul>
             </div>

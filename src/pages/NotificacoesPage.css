@@ -1,0 +1,116 @@
+.notificacoes-container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 1.5rem;
+
+}
+
+.notificacoes-title {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.notificacao-card {
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    transition: background-color 0.3s;
+    margin: 2rem;
+}
+
+.notificacao-lida {
+    background-color: #ffffff;
+}
+
+.notificacao-nao-lida {
+    background-color: #eff6ff; /* azul claro */
+}
+
+.notificacao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notificacao-titulo {
+    font-weight: 600;
+    font-size: 1.125rem;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.notificacao-descricao {
+    font-size: 0.875rem;
+    color: #4b5563; /* cinza */
+    margin-top: 0.25rem;
+    font-size: 1.2rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.notificacao-hora {
+    font-size: 0.75rem;
+    color: #9ca3af; /* cinza claro */
+    margin-top: 0.5rem;
+    display: block;
+    font-size: 1.2rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.notificacoes-container {
+    padding: 2rem;
+    max-width: 700px;
+    margin: auto;
+}
+
+.notificacoes-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.notificacao-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.notificacao-card:hover {
+    transform: scale(1.02);
+    background-color: #f0f0f0;
+}
+
+.notificacao-lida .notificacao-titulo,
+.notificacao-lida .notificacao-descricao,
+.notificacao-lida .notificacao-hora {
+    text-decoration: line-through;
+    color: #777;
+}
+
+.notificacao-titulo {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.notificacao-descricao {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
+
+.notificacao-hora {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.5rem;
+    display: block;
+}
