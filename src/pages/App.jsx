@@ -13,6 +13,7 @@ import HorariosPage from './aulas/HorariosPage.jsx';
 import Login from './User/Login.jsx';
 import ExerciciosPage from "./exercicios/ExerciciosPage.jsx";
 import AulasCatPage from './aulas/AulasCatPage.jsx';
+import AulaDetalhePage from "./aulas/AulaDetalhePage.jsx";
 import TipoExPage from './exercicios/TipoExPage.jsx';
 import TipoAulaPage from './aulas/TipoAulaPage.jsx';
 import ThemeToggle from '../components/ThemeToggle.jsx';
@@ -76,6 +77,7 @@ function App() {
             <Route path="/HorariosPage" element={<HorariosPage />} />
             <Route path="/Aulas/:tipo" element={<TipoAulaPage />} />
             <Route path="/MensalidadeFormsPage" element={<MensalidadeFormsPage />} />
+            <Route path="/Aulas/:tipo/:idx" element={<AulaDetalhePage />} />
         </Routes>
     );
 }

@@ -9,7 +9,7 @@ import login from './pages/User/Login.jsx';
 import ExerciciosPage from './pages/exercicios/ExerciciosPage.jsx';
 import AulasCatPage from './pages/aulas/AulasCatPage.jsx';
 import TipoExPage from './exercicios/TipoExPage.jsx';
-
+import AulaDetalhePage from "./pages/aulas/AulaDetalhePage.jsx";
 
 function App() {
   return (
@@ -23,6 +23,7 @@ function App() {
         <Route path="/Exercicios" element={<ExerciciosPage />} />
         <Route path="/AulasCatPage" element={<AulasCatPage />} />
         <Route path="/exercicios/:tipo" element={<TipoExPage />} />
+        <Route path="/aulas/:tipo/:index" element={<AulaDetalhePage />} />
       </Routes>
       <Footer />
     </div>

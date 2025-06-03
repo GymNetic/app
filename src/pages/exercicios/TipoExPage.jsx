@@ -56,8 +56,17 @@ function TipoExPage() {
                 <SearchBar onSearch={handleSearch} />
             </div>
 
-            <ExCard data={dataToDisplay}
-                    classesPerSlide={dataToDisplay.length}/>
+            <div className="exercises-container">
+                {dataToDisplay.map((exercicio, index) => (
+                    <ExCard
+                        key={exercicio.id || index}
+                        name={exercicio.name}
+                        photo={exercicio.photo || "https://via.placeholder.com/300x200?text=Exercício"}
+                        desc={exercicio.desc}
+                        type={exercicio.type}
+                    />
+                ))}
+            </div>
         </div>
     );
 }

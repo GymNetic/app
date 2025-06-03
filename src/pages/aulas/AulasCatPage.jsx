@@ -11,7 +11,7 @@ function AulasCatPage() {
                 <img src="https://www.nutri.pt/wp-content/uploads/2020/01/nutricionista.jpg" alt=" " />
                 <div className="user-area-title">
                     <p>Explora a melhor sessão para ti </p>
-                    <h1>AS NOSSAS AULAS</h1>
+                    <h1>AS NOSSAS AULAS DE</h1>
                 </div>
             </div>
             <ClassSlider

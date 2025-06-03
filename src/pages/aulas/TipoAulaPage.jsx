@@ -34,6 +34,7 @@ function TipoAulaPage() {
         setFilteredData(filtered);
     };
 
+
     return (
         <div>
             <div className="bck-space">
@@ -59,6 +60,7 @@ function TipoAulaPage() {
                     desc: null// Adiciona o título da categoria de aula
                 }))}
                 classesPerSlide={3}
+
             />
         </div>
 

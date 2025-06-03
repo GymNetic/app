@@ -3,7 +3,7 @@ import { useState } from 'react';
 import BtnSlider from '../Slider/BtnSlider';
 import { Link } from 'react-router-dom';
 
-function ClassSlider({ data = [], classesPerSlide = 3, title }) {
+function ClassSlider({ data = [], classesPerSlide = 3, title, onCardClick }) {
     const [slideIndex, setSlideIndex] = useState(0);
     const [hoveredCard, setHoveredCard] = useState(null);
 
@@ -53,6 +53,8 @@ function ClassSlider({ data = [], classesPerSlide = 3, title }) {
                                             className="class-card-container"
                                             onMouseEnter={() => setHoveredCard(item.id)}
                                             onMouseLeave={() => setHoveredCard(null)}
+                                            onClick={() => onCardClick && onCardClick(item)}
+                                            style={{ cursor: onCardClick ? 'pointer' : 'default' }}
                                         >
                                             <Link to={item.link} className="class-card-link">
                                                 <div
