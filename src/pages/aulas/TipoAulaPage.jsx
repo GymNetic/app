@@ -9,30 +9,10 @@ import ClassSlider from "../../components/ClassSlider/ClassSlider.jsx";
 
 function TipoAulaPage() {
     const { tipo } = useParams();
-    const [filteredData, setFilteredData] = useState(null);
+    const [filteredData] = useState(null);
 
     const aulaInfo = AulasData.find(aula => aula.slug === tipo);
     const aulaData = TipoAulaData[tipo]; // dados específicos de TipoAulaData
-
-    if (!aulaInfo || !aulaData) {
-        return <div>Aula não encontrada</div>;
-    }
-
-    const handleSearch = (searchTerm) => {
-        if (!searchTerm.trim()) {
-            setFilteredData(null);
-            return;
-        }
-
-        const filtered = aulaData.filter(item =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.desc.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.professor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.intensidade.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-
-        setFilteredData(filtered);
-    };
 
 
     return (
@@ -51,7 +31,6 @@ function TipoAulaPage() {
 
             <div className="search-area">
                 <h1 className="list-main-title">Lista de Aulas</h1>
-                <SearchBar onSearch={handleSearch} />
             </div>
             <ClassSlider
                 data={(filteredData || aulaData).map(item => ({

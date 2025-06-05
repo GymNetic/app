@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { MdLightMode } from "react-icons/md";
+import { MdNightlight } from "react-icons/md";
+import './ThemeToggle.css'; // Import your CSS for styling
 
 function ThemeToggle() {
   const [darkMode, setDarkMode] = useState(false);
@@ -25,7 +28,7 @@ function ThemeToggle() {
       onClick={() => setDarkMode(!darkMode)}
       className="theme-toggle"
     >
-      {darkMode ? '☀️' : '🌙'}
+      {darkMode ? <MdNightlight /> : <MdLightMode />}
     </button>
   );
 }

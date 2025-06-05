@@ -6,11 +6,11 @@ import logowhite from "../logo/logowhite.svg";
 import "./Header.css";
 import { MdNotificationsNone, MdNotificationsActive } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { SlUser } from "react-icons/sl";
 import { FaRegUser } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { IoClose } from "react-icons/io5";
 import SideBar from "./SideBar";
+import ThemeToggle from "./ThemeToggle.jsx";
 
 function Header() {
     const [activeDropdown, setActiveDropdown] = useState(null);
@@ -124,6 +124,9 @@ function Header() {
                 <nav>
                     <IconContext.Provider value={{ size: '1.5em', className: isScrolled ? 'icon icon-scrolled' : 'icon' }}>
                         <ul>
+                            <li>
+                                <ThemeToggle/>
+                            </li>
                             <li>
                                 <Link to="/notificacoesPage" onClick={marcarComoLidas}>
                                     {temNotificacoesNaoLidas ? (

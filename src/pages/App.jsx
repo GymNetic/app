@@ -21,14 +21,12 @@ import ThemeToggle from '../components/ThemeToggle.jsx';
 import NotificacoesPage from './NotificacoesPage.jsx';
 import classData from '../data/classData.js'; // Importa os dados das aulas
 import PlanosData from '../data/PlanosData.js'; // Importa os dados das mensalidades
-import cardsData from '../data/cardsData.js';
 import PlanoTreinoPage from "./PlanoTreinoPage.jsx"; // Importa os dados dos cartões horizontais
-
+import cardsData from "../data/cardsData.js";
 
 function App() {
     const HomePage = () => (
         <main>
-            <ThemeToggle/>
             <Slider/>
             <Cards/>
             <div className="app-container">
@@ -40,7 +38,7 @@ function App() {
                         link={card.link}
                         description={card.description}
                         buttonText={card.buttonText}
-                        videoLabel={card.videoLabel}
+                        image={card.image}
                     />
                 ))}
             </div> 
@@ -85,6 +83,7 @@ function App() {
             <Route path="/notificacoesPage" element={<NotificacoesPage />} />
             <Route path="/PlanoTreinoPage" element={<PlanoTreinoPage />} />
                 <Route path="/PlanoNutricionalPage" element={<PlanoNutricionalPage />} />
+
         </Routes>
     );
 }

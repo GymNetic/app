@@ -51,6 +51,7 @@ font-family: Montserrat, sans-serif;
 }
 .hc-more-button {
 color: black;
+background-color: white;
 border: none;
 padding: 10px 40px;
 text-align: center;
@@ -63,6 +64,7 @@ align-self: flex-start;
 margin-top: auto;
 font-family: Montserrat, sans-serif;
 font-weight: 700;
+border-radius: 5px;
 }
 .hc-more-button:hover {
 color: var(--text-primary);
@@ -71,7 +73,7 @@ border-radius: 5px;
 background: var(--background-primary);
 
 }
-.hc-video-placeholder {
+.hc-image {
 width: 300px;
 height: 180px;
 background-color: var(--background-secondary);
@@ -82,23 +84,4 @@ justify-content: center;
 align-items: center;
 position: relative;
 flex-shrink: 0;
-}
-.hc-play-icon {
-font-size: 50px;
-color: var(--shadow-color);
-margin-bottom: 10px;
-}
-.hc-video-label {
-font-size: 16px;
-font-weight: bold;
-color: var(--text-secondary);
-}
-@media (max-width: 768px) {
-.hc-content {
-flex-direction: column;
-}
-.hc-video-placeholder {
-width: 100%;
-margin-top: 20px;
-}
 }

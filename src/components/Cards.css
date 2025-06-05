@@ -71,6 +71,8 @@
   transition: opacity 0.3s ease;
   opacity: 1;
   font-family: Montserrat, sans-serif;
+  /*forçar a nao ficar com uppercase*/
+    text-transform: none;
 }
 
 .card-arrow {
