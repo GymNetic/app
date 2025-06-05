@@ -14,7 +14,7 @@ function Layout() {
 
     return (
         <div className="app">
-            <header/>
+            <Header/>
             {!isHome && <BackButton />}
             <App />
             <Footer />

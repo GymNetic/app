@@ -362,23 +362,29 @@ header.header-scrolled + .full-width-dropdown,
     animation-delay: 0.2s; /* Delay the appearance */
 }
 
-/* Add this new animation keyframe */
-@keyframes fadeInDelay {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
+.notification-icon-active {
+    color: #ff2783;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
     }
-    to {
-        opacity: 1;
+    50% {
+        transform: scale(1.15);
+    }
+    100% {
         transform: scale(1);
     }
 }
 
-useEffect(() => {
-                  const verificarNotificacoes = () => {
-                  const notificacoesNaoLidas = notificacoes.some(notificacao => !notificacao.lida);
-              setTemNotificacoesNaoLidas(notificacoesNaoLidas);
-              };
+@media (max-width: 768px) {
+    header nav svg[class*="MdNotifications"] {
+        font-size: 1.6rem;
+    }
 
-              verificarNotificacoes();
-              }, []);
+    header.header-scrolled nav svg[class*="MdNotifications"] {
+        font-size: 1.4rem;
+    }
+}
