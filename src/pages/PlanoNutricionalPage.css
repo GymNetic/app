@@ -1,23 +1,178 @@
+.header-plano-treino {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header-plano-treino h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    color: var(--text-primary);
+}
+
 .plano-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.linha-horizontal-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+    width: 100%;
+
+}
+
+.linha-horizontal-wrapper::before,
+.linha-horizontal-wrapper::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background-color: var(--text-primary);
+    margin: 0 1rem;
+}
+
+.linha-horizontal-text {
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    white-space: nowrap;
+    color: var(--text-primary);
 }
 
 .refeicoes-lista {
-    display: grid;
-    gap: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+    padding: 16px;
+    border-radius: 8px;
     font-family: 'Montserrat', sans-serif;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
 .refeicao-card {
-    background: #eef7f2;
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid #cce5dc;
-    transition: transform 0.2s;
+    flex: 1 1 250px;
+    min-width: 250px;
+    max-width: 350px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background-color: var(--background-primary);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 .refeicao-card:hover {
-    transform: scale(1.02);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.refeicao-card h2 {
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.horario {
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.refeicao-card ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.refeicao-card li {
+    padding: 5px 0;
+    border-bottom: 1px solid var(--background-tertiary);
+    color: var(--text-primary);
+}
+
+.refeicao-card li:last-child {
+    border-bottom: none;
+}
+
+.refeicao-card li:before {
+    content: "";
+    width: 0.2em;
+    height: 0.2em;
+    border: 2px solid var(--brand-color);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.5em;
+    vertical-align: middle;
+}
+
+.info-nutricional {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.calorias {
+    background-color: var(--brand-color-light);
+    color: var(--brand-color);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.no-meals {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-tertiary);
+    font-style: italic;
+    width: 100%;
+}
+
+.no-meals p {
+    font-size: 1.1rem;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+    .refeicoes-lista {
+        flex-direction: column;
+        gap: 12px;
+        padding: 8px;
+    }
+    .refeicao-card {
+        max-width: 100%;
+        min-width: 0;
+    }
+    .header-plano-treino h1 {
+        font-size: 1.3rem;
+    }
+    .linha-horizontal-text {
+        font-size: 1.1rem;
+    }
 }

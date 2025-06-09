@@ -1,22 +1,83 @@
-.plano-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
+
+
+.header-plano-treino {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    width: 100%;
+    max-width: 1200px; /* aumenta o limite máximo */
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.refeicoes-lista {
-    display: grid;
-    gap: 1rem;
+.header-plano-treino h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
 }
 
-.refeicao-card {
-    background: #eef7f2;
-    padding: 1rem;
+.plano-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* aumenta o limite máximo */
+    margin-left: auto;
+    margin-right: auto;
+}
+.exercicios-lista{
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+    padding: 16px;
     border-radius: 8px;
-    border: 1px solid #cce5dc;
-    transition: transform 0.2s;
 }
 
-.refeicao-card:hover {
-    transform: scale(1.02);
+.exercicio-card{
+    flex: 1;
+    padding: 16px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+}
+.exercicio-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.exercicio-card h2 {
+   text-align: center;
+    text-transform: uppercase;
+}
+
+.linha-horizontal-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+    width: 100%;
+}
+
+.linha-horizontal-wrapper::before,
+.linha-horizontal-wrapper::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background-color: #000;
+    margin: 0 1rem;
+}
+
+.linha-horizontal-text {
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    white-space: nowrap;
 }

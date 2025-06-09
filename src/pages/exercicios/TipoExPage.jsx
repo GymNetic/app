@@ -40,7 +40,6 @@ function TipoExPage() {
     return (
         <div>
             <div className="bck-space">
-                <BackButton />
             </div>
 
             <div className="area-image">
