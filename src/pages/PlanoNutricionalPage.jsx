@@ -32,7 +32,6 @@ export default function PlanoNutricionalPage() {
                 <DaySelector
                     data={nutricaoData}
                     onDayChange={handleDayChange}
-                    dataType="nutricao"
                 />
             </div>
             <div className="linha-horizontal-wrapper">

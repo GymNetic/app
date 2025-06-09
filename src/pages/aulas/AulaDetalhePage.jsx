@@ -22,7 +22,6 @@ function AulaDetalhePage() {
     return (
         <div>
             <div className="bck-space">
-                <BackButton onClick={() => navigate(-1)} />
             </div>
             <div className="aula-detalhe-header">
                 <h1>{aula.name}</h1>

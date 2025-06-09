@@ -20,7 +20,7 @@
     font-size: 1rem;
     border: 2px solid var(--brand-color);
     border-radius: 8px;
-    background-color: var(--background-primary);
+    background-color: var(--background-tertiary);
     color: var(--text-primary);
     cursor: pointer;
     min-width: 200px;
@@ -38,7 +38,7 @@
 
 .class-select option,
 .time-select option {
-    background-color: var(--background-primary);
+    background-color: var(--background-tertiary);
     color: var(--text-primary);
     padding: 1rem;
     font-family: Montserrat, sans-serif;

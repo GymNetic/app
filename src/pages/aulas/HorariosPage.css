@@ -1,5 +1,4 @@
 .horarios-page {
-    padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
     font-family: 'Poppins', sans-serif;
@@ -8,7 +7,7 @@
 .horarios-header {
     text-align: center;
     margin-bottom: 2rem;
-    padding-top: 60px;
+    padding-top: 10px;
 }
 
 .horarios-header h1 {

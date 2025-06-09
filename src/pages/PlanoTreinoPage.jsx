@@ -35,18 +35,27 @@ export default function PlanoTreinoPage() {
     const [diaAtual, setDiaAtual] = useState('segunda');
     const [dataLoaded, setDataLoaded] = useState(false);
 
-    // Carrega os dados quando o componente monta
+    // Função para formatar o nome do(s) dia(s)
+    const formatarDia = (dia) => {
+        if (Array.isArray(dia)) {
+            return dia
+                .map(d => d.charAt(0).toUpperCase() + d.slice(1))
+                .join(', ');
+        }
+        return dia.charAt(0).toUpperCase() + dia.slice(1);
+    };
+
+    // Carrega os dados ao montar o componente
     useEffect(() => {
         const loadData = async () => {
             try {
-                // Tenta importar novamente de forma assíncrona
                 const module = await import("../data/exerciseData");
                 const data = module.exerciseData || module.default || [];
                 console.log("Dados carregados:", data);
                 setDataLoaded(true);
             } catch (error) {
                 console.error("Erro ao carregar dados:", error);
-                setDataLoaded(true); // Marca como carregado mesmo com erro
+                setDataLoaded(true);
             }
         };
 
@@ -54,7 +63,7 @@ export default function PlanoTreinoPage() {
     }, []);
 
     const handleDayChange = (exercicios, dia) => {
-        console.log(`Mudança para ${dia}:`, exercicios);
+        console.log(`Mudança para ${Array.isArray(dia) ? dia.join(', ') : dia}:`, exercicios);
         setExerciciosDoDia(exercicios || []);
         setDiaAtual(dia);
     };
@@ -78,19 +87,16 @@ export default function PlanoTreinoPage() {
                 <DaySelector
                     data={exerciseData}
                     onDayChange={handleDayChange}
-                    dataType="exercicio"
                 />
-
-
             </div>
+
             <div className="linha-horizontal-wrapper">
                 <h2 className="linha-horizontal-text">
-                    Treino de {diaAtual.charAt(0).toUpperCase() + diaAtual.slice(1)}
+                    Treino de {formatarDia(diaAtual)}
                 </h2>
             </div>
 
             <div className="exercicios-lista">
-
                 {exerciciosDoDia && exerciciosDoDia.length > 0 ? (
                     exerciciosDoDia.map((exercicio) => (
                         <div key={exercicio.id} className="exercicio-card">
@@ -102,8 +108,7 @@ export default function PlanoTreinoPage() {
                     ))
                 ) : (
                     <div className="no-exercises">
-                        <p>Nenhum exercício programado para este dia.</p>
-                        <small>Debug: Total de exercícios disponíveis: {exerciseData?.length || 0}</small>
+                        <p>Nenhum exercício programado para este dia</p>
                     </div>
                 )}
             </div>

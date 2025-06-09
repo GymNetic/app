@@ -7,14 +7,18 @@ import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
 import BackButton from "../../components/BackButton.jsx";
 import SearchBar from "../../components/SearchBar.jsx";
+import AddToPlanPopup from "../../components/AddToPlanPopup.jsx"; // IMPORTANTE
 
 function TipoExPage() {
     const { tipo } = useParams();
     const [filteredData, setFilteredData] = useState(null);
 
-    // Encontra os dados do exercício atual
+    // Estado para o popup
+    const [showPopup, setShowPopup] = useState(false);
+    const [selectedExercise, setSelectedExercise] = useState(null);
+
     const exercicioInfo = ExerciciosData.find(ex => ex.slug === tipo);
-    const exercicioData = TipoExData[tipo]; // dados específicos do TipoExData
+    const exercicioData = TipoExData[tipo]; // dados específicos
 
     if (!exercicioInfo || !exercicioData) {
         return <div>Exercício não encontrado</div>;
@@ -35,11 +39,33 @@ function TipoExPage() {
         setFilteredData(filtered);
     };
 
+    const handleAddClick = (exerciseData) => {
+        setSelectedExercise(exerciseData);
+        setShowPopup(true);
+    };
+
+    const handlePopupClose = () => {
+        setShowPopup(false);
+        setSelectedExercise(null);
+    };
+
+    const handlePopupSave = ({ day, series, reps }) => {
+        console.log("✅ Exercício adicionado ao plano:", {
+            ...selectedExercise,
+            day,
+            series,
+            reps,
+        });
+        setShowPopup(false);
+        setSelectedExercise(null);
+    };
+
     const dataToDisplay = filteredData === null ? exercicioData : filteredData;
 
     return (
         <div>
             <div className="bck-space">
+                <BackButton />
             </div>
 
             <div className="area-image">
@@ -60,12 +86,21 @@ function TipoExPage() {
                     <ExCard
                         key={exercicio.id || index}
                         name={exercicio.name}
-                        photo={exercicio.photo || "https://via.placeholder.com/300x200?text=Exercício"}
+                        photo={exercicio.photo}
                         desc={exercicio.desc}
                         type={exercicio.type}
+                        onAddClick={handleAddClick}
                     />
                 ))}
             </div>
+
+            {showPopup && selectedExercise && (
+                <AddToPlanPopup
+                    exerciseName={selectedExercise.name}
+                    onClose={handlePopupClose}
+                    onSave={handlePopupSave}
+                />
+            )}
         </div>
     );
 }

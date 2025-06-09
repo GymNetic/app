@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import './ExCard.css';
-import { FaHeart } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
-import { FaPlus } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaPlus } from "react-icons/fa";
 
-const ExCard = ({ name, photo, desc, type }) => {
+const ExCard = ({ name, photo, desc, type, onAddClick }) => {
     const [isLiked, setIsLiked] = useState(false);
 
     const handleLike = () => {
@@ -12,8 +10,11 @@ const ExCard = ({ name, photo, desc, type }) => {
     };
 
     const handleAddToTraining = () => {
-        // Função a implementar para adicionar ao plano de treino
-        console.log(`Exercício ${name} adicionado ao plano de treino`);
+        if (typeof onAddClick === 'function') {
+            onAddClick({ name, photo, desc, type });
+        } else {
+            console.warn("onAddClick não foi passado para ExCard");
+        }
     };
 
     return (
@@ -45,9 +46,6 @@ const ExCard = ({ name, photo, desc, type }) => {
                         <div className="ex-card-desc">
                             <span className="ex-card-desc-label">Passos: </span>
                             <span>{desc}</span>
-                        </div>
-                        <div className="ex-card-actions">
-
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,105 @@
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    color: var(--text-primary);
+}
+
+.popup {
+    background: var( --background-tertiary);
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+
+.form-group {
+    margin: 1rem 0;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 1.5rem;
+}
+
+.popup-actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.popup-actions button:first-child {
+    background-color: #eee;
+}
+
+.popup-actions button:last-child {
+    background-color: var(--brand-color);
+    color: white;
+}
+.popup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.popup-actions button {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: var(--brand-color);
+    color: var(--text-primary);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.popup-actions button:hover {
+    background-color: var(--brand-color-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.popup-actions button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.popup-actions button:first-child {
+    background-color: var(--background-tertiary);
+    color: var(--text-primary);
+}
+
+.popup-actions button:first-child:hover {
+    background-color: var(--border-color);
+}
+
+.popup label{
+    display: block;
+    margin: 8px;
+    font-weight: 600;
+    color: var(--text-primary);
+}

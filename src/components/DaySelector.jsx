@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import "./DaySelector.css";
 
-export default function DaySelector({ data, onDayChange, dataType = "exercicio" }) {
-    const [diaSelecionado, setDiaSelecionado] = useState('segunda');
+export default function DaySelector({ data, onDayChange, dataType = "exercicio", multiSelect = false }) {
+    const [diasSelecionados, setDiasSelecionados] = useState(['segunda']);
 
     const diasSemana = [
         { key: 'segunda', label: 'Segunda' },
@@ -14,7 +14,6 @@ export default function DaySelector({ data, onDayChange, dataType = "exercicio" 
         { key: 'domingo', label: 'Domingo' }
     ];
 
-    // Função para organizar dados por dia da semana
     const organizarDadosPorDia = () => {
         const dadosPorDia = {
             segunda: [],
@@ -27,7 +26,6 @@ export default function DaySelector({ data, onDayChange, dataType = "exercicio" 
         };
 
         data.forEach(item => {
-            // Verifica se o item tem uma propriedade 'dia' ou 'dias'
             if (item.dia) {
                 dadosPorDia[item.dia].push(item);
             } else if (item.dias && Array.isArray(item.dias)) {
@@ -35,7 +33,6 @@ export default function DaySelector({ data, onDayChange, dataType = "exercicio" 
                     dadosPorDia[dia].push(item);
                 });
             } else {
-                // Se não especificar dia, adiciona em todos os dias
                 Object.keys(dadosPorDia).forEach(dia => {
                     dadosPorDia[dia].push(item);
                 });
@@ -48,13 +45,27 @@ export default function DaySelector({ data, onDayChange, dataType = "exercicio" 
     const dadosPorDia = organizarDadosPorDia();
 
     const handleDayChange = (dia) => {
-        setDiaSelecionado(dia);
-        onDayChange(dadosPorDia[dia], dia);
+        let novosSelecionados;
+
+        if (multiSelect) {
+            if (diasSelecionados.includes(dia)) {
+                novosSelecionados = diasSelecionados.filter(d => d !== dia);
+            } else {
+                novosSelecionados = [...diasSelecionados, dia];
+            }
+        } else {
+            novosSelecionados = [dia];
+        }
+
+        setDiasSelecionados(novosSelecionados);
+
+        const dadosFiltrados = novosSelecionados.flatMap(d => dadosPorDia[d] || []);
+        onDayChange(dadosFiltrados, novosSelecionados);
     };
 
-    // Inicializa com os dados de segunda-feira na primeira renderização
     useEffect(() => {
-        onDayChange(dadosPorDia.segunda, 'segunda');
+        const dadosIniciais = diasSelecionados.flatMap(d => dadosPorDia[d] || []);
+        onDayChange(dadosIniciais, diasSelecionados);
     }, []);
 
     const getCountLabel = (count) => {
@@ -70,13 +81,10 @@ export default function DaySelector({ data, onDayChange, dataType = "exercicio" 
                 {diasSemana.map((dia) => (
                     <button
                         key={dia.key}
-                        className={`dia-btn ${diaSelecionado === dia.key ? 'ativo' : ''}`}
+                        className={`dia-btn ${diasSelecionados.includes(dia.key) ? 'ativo' : ''}`}
                         onClick={() => handleDayChange(dia.key)}
                     >
                         {dia.label}
-                        <span className="item-count">
-                            {dadosPorDia[dia.key].length} {getCountLabel(dadosPorDia[dia.key].length)}
-                        </span>
                     </button>
                 ))}
             </div>
