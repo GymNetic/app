@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import DropDownMenu from "./DropDownMenu";
 import logo2 from "../logo/logo2.svg";
@@ -13,7 +14,6 @@ import SideBar from "./SideBar";
 import ThemeToggle from "./ThemeToggle.jsx";
 
 function Header() {
-    const [activeDropdown, setActiveDropdown] = useState(null);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const dropdownRef = useRef(null);
@@ -36,6 +36,9 @@ function Header() {
         }));
         setNotifications(notificacoesAtualizadas);
     };
+
+    const { isLoggedIn } = useContext(AuthContext);
+    const [activeDropdown, setActiveDropdown] = useState(null);
 
     const handleMouseEnter = (menuType) => {
         setActiveDropdown(menuType);
@@ -136,7 +139,13 @@ function Header() {
                                     )}
                                 </Link>
                             </li>
-                            <li><Link to="/login"><FaRegUser /></Link></li>
+                            <li>
+                                {isLoggedIn ? (
+                                    <Link to="/area-cliente"><FaRegUser /></Link>
+                                ) : (
+                                    <Link to="/login"><FaRegUser /></Link>
+                                )}
+                            </li>
                             <li
                                 className="hamburger-menu"
                                 onClick={toggleSidebar}

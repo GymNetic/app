@@ -23,6 +23,7 @@ import classData from '../data/classData.js'; // Importa os dados das aulas
 import PlanosData from '../data/PlanosData.js'; // Importa os dados das mensalidades
 import PlanoTreinoPage from "./PlanoTreinoPage.jsx"; // Importa os dados dos cartões horizontais
 import cardsData from "../data/cardsData.js";
+import AreaCliente from "./User/AreaCliente.jsx";
 
 function App() {
     const HomePage = () => (
@@ -83,6 +84,7 @@ function App() {
             <Route path="/notificacoesPage" element={<NotificacoesPage />} />
             <Route path="/PlanoTreinoPage" element={<PlanoTreinoPage />} />
                 <Route path="/PlanoNutricionalPage" element={<PlanoNutricionalPage />} />
+            <Route path="/area-cliente" element={<AreaCliente />} />
 
         </Routes>
     );

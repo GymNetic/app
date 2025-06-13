@@ -6,8 +6,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import App from './pages/App';
 import BackButton from './components/BackButton.jsx';
+import { AuthProvider } from './context/AuthContext'; // importe o AuthProvider
 
-// Novo componente Layout para controlar visibilidade do botão
 function Layout() {
     const location = useLocation();
     const isHome = location.pathname === "/";
@@ -22,11 +22,12 @@ function Layout() {
     );
 }
 
-// Render principal
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <BrowserRouter>
-            <Layout />
+            <AuthProvider>
+                <Layout />
+            </AuthProvider>
         </BrowserRouter>
     </StrictMode>
 );

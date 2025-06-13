@@ -13,6 +13,7 @@ import AulaDetalhePage from "./pages/aulas/AulaDetalhePage.jsx";
 import PlanoNutricionalPage from "./pages/PlanoNutricionalPage.jsx";
 import PlanoTreinoPage from './pages/PlanoTreinoPage';
 import NotificacoesPage from './pages/NotificacoesPage';
+import AreaCliente from './pages/User/AreaCliente.jsx';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/notificacoesPage" element={<NotificacoesPage />} />
           <Route path="/PlanoTreinoPage" element={<PlanoTreinoPage />} />
           <Route path="/PlanoNutricionalPage" element={<PlanoNutricionalPage />} />
+          <Route path="/area-cliente" element={<AreaCliente />} />
       </Routes>
       <Footer />
     </div>
