@@ -64,13 +64,10 @@ function TipoExPage() {
 
     return (
         <div>
-            <div className="bck-space">
-                <BackButton />
-            </div>
 
-            <div className="area-image">
+            <div className="nutri-agenda-image">
                 <img src="https://www.nutri.pt/wp-content/uploads/2020/01/nutricionista.jpg" alt=" " />
-                <div className="user-area-title">
+                <div className="nutri-agenda-title">
                     <p>Explora o melhor para ti</p>
                     <h1>{exercicioInfo.title}</h1>
                 </div>

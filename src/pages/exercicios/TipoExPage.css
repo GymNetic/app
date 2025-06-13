@@ -33,17 +33,25 @@
     margin: 0 0 20px 20px;
 }
 
-.area-image {
-    height: 700px;
-    margin: 0 3rem 3rem;
+.nutri-agenda-image {
+    max-width: 1450px;
+    height: 600px;
+    margin: 5px auto 20px auto;
     background: var(--brand-color-medium);
     position: relative;
     overflow: hidden;
     box-shadow: 0 10px 20px var(--shadow-color);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: center; /* alinha horizontalmente */
+    justify-content: center; /* opcional: centraliza verticalmente */
     text-align: center;
-    z-index: 1;
+}
+
+
+.nutri-agenda-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-family: Montserrat, sans-serif;
+
 }

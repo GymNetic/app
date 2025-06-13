@@ -1,0 +1,20 @@
+.ex-area-image {
+    max-width: 1450px;
+    height: 600px;
+    margin: 5px auto 20px auto;
+    background: var(--brand-color-medium);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 20px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* alinha horizontalmente */
+    justify-content: center; /* opcional: centraliza verticalmente */
+    text-align: center;
+}
+
+.ex-area-title{
+    text-align: center;
+    margin-bottom: 3rem;
+    font-family: Montserrat, sans-serif;
+}

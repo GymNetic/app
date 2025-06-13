@@ -7,9 +7,9 @@ function AulasCatPage() {
 
     return (
         <div>
-            <div className="user-area-image">
+            <div className="aulas-area-image">
                 <img src="https://www.nutri.pt/wp-content/uploads/2020/01/nutricionista.jpg" alt=" " />
-                <div className="user-area-title">
+                <div className="aulas-area-title">
                     <p>Explora a melhor sessão para ti </p>
                     <h1>AS NOSSAS AULAS DE</h1>
                 </div>

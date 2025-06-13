@@ -1,5 +1,5 @@
 .mensalidade-forms {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
 }
@@ -27,7 +27,6 @@
   font-weight: 400;
 }
 
-/* White box containing labels and inputs */
 .mensalidade-forms-container {
     background: var(--background-primary);
     border-radius: 8px;
@@ -36,12 +35,7 @@
     margin-bottom: 2rem;
     display: flex;
     gap: 2rem;
-}
-
-/* Remove background from form */
-form {
-    max-width: 1000px;
-    margin: 0 auto;
+    width: 95%;
 }
 
 
@@ -69,8 +63,7 @@ form {
 
 .mensalidade-forms-container {
     display: flex;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: 5rem;
 }
 
 .mensalidade-forms-input1,

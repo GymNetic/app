@@ -17,13 +17,9 @@ function TipoAulaPage() {
 
     return (
         <div>
-            <div className="bck-space">
-                <BackButton />
-            </div>
 
-            <div className="area-image">
-                <img src="https://img.freepik.com/free-photo/group-people-doing-yoga-exercise-class_1303-13960.jpg" alt="Aulas" />
-                <div className="user-area-title">
+            <div className="nutri-agenda-image">
+                <div className="nutri-agenda-title">
                     <p>Descobre as melhores aulas para ti</p>
                     <h1>{aulaInfo.title}</h1>
                 </div>

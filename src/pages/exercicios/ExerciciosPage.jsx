@@ -7,9 +7,9 @@ function ExerciciosPage() {
 
     return (
         <div>
-            <div className="user-area-image">
+            <div className="ex-area-image">
                 <img src="https://www.nutri.pt/wp-content/uploads/2020/01/nutricionista.jpg" alt=" " />
-                <div className="user-area-title">
+                <div className="ex-area-title">
                     <p>Explora o melhor para ti com a nossa</p>
                     <h1>BIBLIOTECA DE EXERCÍCIOS</h1>
                 </div>
