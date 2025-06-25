@@ -1,20 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ExCard.css';
 import { FaHeart, FaRegHeart, FaPlus } from "react-icons/fa";
 
-const ExCard = ({ name, photo, desc, type, onAddClick }) => {
+const ExCard = ({ name, photo, desc, type }) => {
     const [isLiked, setIsLiked] = useState(false);
 
-    const handleLike = () => {
-        setIsLiked(!isLiked);
-    };
+    useEffect(() => {
+        const favorites = JSON.parse(localStorage.getItem('favoriteExercises') || '[]');
+        setIsLiked(favorites.some(ex => ex.name === name));
+    }, [name]);
 
-    const handleAddToTraining = () => {
-        if (typeof onAddClick === 'function') {
-            onAddClick({ name, photo, desc, type });
+    const handleLike = () => {
+        const newLikeState = !isLiked;
+        setIsLiked(newLikeState);
+        
+        const favorites = JSON.parse(localStorage.getItem('favoriteExercises') || '[]');
+        
+        if (newLikeState) {
+            const newFavorite = {
+                id: Date.now(),
+                name,
+                category: type,
+                photo,
+                desc,
+                lastDone: new Date().toISOString().split('T')[0]
+            };
+            favorites.push(newFavorite);
         } else {
-            console.warn("onAddClick não foi passado para ExCard");
+            const index = favorites.findIndex(ex => ex.name === name);
+            if (index !== -1) favorites.splice(index, 1);
         }
+        
+        localStorage.setItem('favoriteExercises', JSON.stringify(favorites));
     };
 
     return (
@@ -49,12 +66,6 @@ const ExCard = ({ name, photo, desc, type, onAddClick }) => {
                         </div>
                     </div>
                 </div>
-                <button
-                    className="add-to-plan-button"
-                    onClick={handleAddToTraining}
-                >
-                    <FaPlus /> Adicionar ao Plano
-                </button>
             </div>
         </div>
     );

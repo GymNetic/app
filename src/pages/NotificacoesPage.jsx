@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { notificacoes as notificacoesData } from "../data/notificacoesData";
 import "./NotificacoesPage.css";
 
 export default function NotificacoesPage() {
-    const [notificacoes, setNotificacoes] = useState(notificacoesData);
+    const [notificacoes, setNotificacoes] = useState(() => {
+        const savedNotificacoes = localStorage.getItem('notificacoes');
+        return savedNotificacoes ? JSON.parse(savedNotificacoes) : notificacoesData.map(n => ({...n, lida: false}));
+    });
+
+    useEffect(() => {
+        localStorage.setItem('notificacoes', JSON.stringify(notificacoes));
+        // Dispara um evento customizado para atualizar o header
+        window.dispatchEvent(new Event('notificacoesAtualizadas'));
+    }, [notificacoes]);
 
     const toggleLida = (id) => {
         const notificacoesAtualizadas = notificacoes.map((notificacao) =>

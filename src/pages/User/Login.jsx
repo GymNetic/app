@@ -1,8 +1,6 @@
 import React, { useState, useContext } from "react";
-import { login } from "../../api/client";
 import SimplePopUp from "../../components/simplePopUp.jsx";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
 import "./Login.css";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
@@ -11,24 +9,48 @@ function Login() {
     const [mail, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const [redirectMessage, setRedirectMessage] = useState("");
     const navigate = useNavigate();
-    const { setIsLoggedIn } = useContext(AuthContext);
+
     const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-        setIsLoading(true);
 
         try {
-            await login(mail, password, true);
-            setIsLoggedIn(true);
-            navigate("/area-cliente");
+            // Validação local dos dados
+            if (mail === "cliente@gym.com" && password === "Cliente123!") {
+                // Verificar se auth e setIsLoggedIn existem
+                if (auth && typeof auth.setIsLoggedIn === "function") {
+                    auth.setIsLoggedIn(true);
+                    
+                    // Guarda dados do utilizador no localStorage
+                    localStorage.setItem("userData", JSON.stringify({
+                        email: mail,
+                        name: "Cliente Gym",
+                        phone: "912345678",
+                        birthDate: "1990-01-01",
+                        memberSince: "2022-01-01",
+                        currentPlan: "Plano 2" // Definir plano padrão
+                    }));
+                    
+                    setRedirectMessage("Login bem-sucedido! A redirecionar...");
+                    
+                    // Pequeno atraso para mostrar a mensagem antes do redirecionamento
+                    setTimeout(() => {
+                        navigate("/area-cliente");
+                    }, 800);
+                } else {
+                    setError("Erro de sistema: Contexto de autenticação não disponível.");
+                    console.error("AuthContext não está disponível ou setIsLoggedIn não é uma função", auth);
+                }
+            } else {
+                setError("Email ou código de acesso inválido.");
+            }
         } catch (err) {
-            setError(err.response?.data?.message || "Email ou código de acesso inválido.");
-        } finally {
-            setIsLoading(false);
+            console.error("Erro no login:", err);
+            setError("Ocorreu um erro ao fazer login. Tente novamente.");
         }
     };
 
@@ -118,20 +140,10 @@ function Login() {
 
                         <div className="login-forms-div">
                             <button
-                                className={`login-forms-button ${isLoading ? 'loading' : ''}`}
+                                className="login-forms-button"
                                 type="submit"
-                                disabled={isLoading}
                             >
-                                {isLoading ? (
-                                    <>
-                                        <div className="spinner"></div>
-                                        Carregando...
-                                    </>
-                                ) : (
-                                    <>
-                                        ENTRAR
-                                    </>
-                                )}
+                                ENTRAR
                             </button>
 
                             <button
@@ -151,6 +163,16 @@ function Login() {
                                     <line x1="9" y1="9" x2="15" y2="15" stroke="currentColor" strokeWidth="2"/>
                                 </svg>
                                 {error}
+                            </div>
+                        )}
+                        
+                        {redirectMessage && (
+                            <div className="login-success">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                                    <path d="M8 12l3 3 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                                {redirectMessage}
                             </div>
                         )}
                     </form>

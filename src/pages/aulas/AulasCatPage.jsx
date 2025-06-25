@@ -2,8 +2,15 @@ import React from 'react';
 import './AulasCatPage.css';
 import ClassSlider from "../../components/ClassSlider/ClassSlider.jsx";
 import  AulasData from "../../data/AulasData.js";
+import ScheduleGrid from "../../components/ScheduleGrid.jsx";
+import { useParams } from 'react-router-dom';
 
 function AulasCatPage() {
+    // Obter a categoria da URL
+    const { categoria } = useParams();
+
+    // Filtrar as aulas pela categoria atual
+    const aulasFiltradas = AulasData.filter(aula => aula.title === categoria);
 
     return (
         <div>
@@ -17,6 +24,10 @@ function AulasCatPage() {
             <ClassSlider
                 data={AulasData}
                 classesPerSlide={3}
+            />
+            <ScheduleGrid
+                // meter a categoria de aulas aqui
+                data={aulasFiltradas}
             />
         </div>
     );

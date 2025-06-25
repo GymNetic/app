@@ -8,12 +8,12 @@ const Mensalidades = ({ name, price, description, features }) => {
         const navigate = useNavigate(); // Adicione esta linha
     const handlePlanSelect = () => {
         // You can pass plan details as state to access them in the forms page
-        navigate('/mensalidade-forms', { 
-            state: { 
+        navigate('/mensalidade-forms', {
+            state: {
                 planName: name,
                 planPrice: price,
-                planDescription: description 
-            } 
+                planDescription: description
+            }
         });
     };
 
@@ -23,9 +23,9 @@ const Mensalidades = ({ name, price, description, features }) => {
                 <h2 className="mensalidade-title">{name}</h2>
                 <p className="mensalidade-description">{description}</p>
                 <p className="mensalidade-price">{price}</p>
-                <button 
+                <button
                     className="mensalidade-button"
-                    onClick={handlePlanSelect} 
+                    onClick={handlePlanSelect}
                 >
                     Selecionar
                 </button>

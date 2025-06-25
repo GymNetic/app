@@ -1,5 +1,4 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import DropDownMenu from "./DropDownMenu";
 import logo2 from "../logo/logo2.svg";
@@ -19,25 +18,25 @@ function Header() {
     const dropdownRef = useRef(null);
     const headerRef = useRef(null);
     const [temNotificacoesNaoLidas, setTemNotificacoesNaoLidas] = useState(false);
-    const [notifications, setNotifications] = useState([
-        { id: 1, message: "Nova mensagem", lida: false },
-        { id: 2, message: "Treino atualizado", lida: true },
-    ]);
 
     useEffect(() => {
-        const notificacoesNaoLidas = notifications.some(notificacao => !notificacao.lida);
-        setTemNotificacoesNaoLidas(notificacoesNaoLidas);
-    }, [notifications]);
+        const verificarNotificacoes = () => {
+            const notificacoesSalvas = JSON.parse(localStorage.getItem('notificacoes') || '[]');
+            const temNaoLidas = notificacoesSalvas.some(notificacao => !notificacao.lida);
+            setTemNotificacoesNaoLidas(temNaoLidas);
+        };
 
-    const marcarComoLidas = () => {
-        const notificacoesAtualizadas = notifications.map(n => ({
-            ...n,
-            lida: true
-        }));
-        setNotifications(notificacoesAtualizadas);
-    };
+        // Verifica inicialmente
+        verificarNotificacoes();
 
-    const { isLoggedIn } = useContext(AuthContext);
+        // Adiciona listener para mudanças nas notificações
+        window.addEventListener('notificacoesAtualizadas', verificarNotificacoes);
+
+        return () => {
+            window.removeEventListener('notificacoesAtualizadas', verificarNotificacoes);
+        };
+    }, []);
+
     const [activeDropdown, setActiveDropdown] = useState(null);
 
     const handleMouseEnter = (menuType) => {
@@ -94,10 +93,7 @@ function Header() {
 
     return (
         <div className="header-container">
-            <header
-                ref={headerRef}
-                className={isScrolled ? "header-scrolled" : ""}
-            >
+            <header ref={headerRef} className={isScrolled ? "header-scrolled" : ""}>
                 <Link to="/">
                     <img
                         src={isScrolled ? logowhite : logo2}
@@ -131,7 +127,7 @@ function Header() {
                                 <ThemeToggle/>
                             </li>
                             <li>
-                                <Link to="/notificacoesPage" onClick={marcarComoLidas}>
+                                <Link to="/notificacoesPage">
                                     {temNotificacoesNaoLidas ? (
                                         <MdNotificationsActive className={`icon notification-icon-active ${isScrolled ? 'icon-scrolled' : ''}`} />
                                     ) : (
@@ -140,16 +136,11 @@ function Header() {
                                 </Link>
                             </li>
                             <li>
-                                {isLoggedIn ? (
-                                    <Link to="/area-cliente"><FaRegUser /></Link>
-                                ) : (
-                                    <Link to="/login"><FaRegUser /></Link>
-                                )}
+                                <Link to="/login">
+                                    <FaRegUser/>
+                                </Link>
                             </li>
-                            <li
-                                className="hamburger-menu"
-                                onClick={toggleSidebar}
-                            >
+                            <li className="hamburger-menu" onClick={toggleSidebar}>
                                 <GiHamburgerMenu color="#ff2783"/>
                             </li>
                         </ul>

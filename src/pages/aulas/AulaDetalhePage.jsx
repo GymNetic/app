@@ -1,13 +1,16 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import TipoAulaData from "../../data/TipoAulaData";
-import BackButton from "../../components/BackButton.jsx";
 import  "./AulaDetalhePage.css";
+import ScheduleGrid from "../../components/ScheduleGrid.jsx";
 
 function AulaDetalhePage() {
     const { tipo, idx } = useParams();
-    const navigate = useNavigate();
 
+    // Estados para controlar o pop-up
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState("");
+    const [selectedClass, setSelectedClass] = useState(null);
 
 
     const aulas = TipoAulaData[tipo];
@@ -18,6 +21,42 @@ function AulaDetalhePage() {
     if (!aula) {
         return <div>Aula não encontrada</div>;
     }
+
+    // Função para inscrição na aula
+    const handleSubscribe = (horario) => {
+        // Simulando verificação de vagas disponíveis (você deve implementar sua lógica real aqui)
+        const disponivel = Math.random() > 0.3; // 70% de chance de ter vaga disponível
+
+        setSelectedClass(horario);
+
+        if (disponivel) {
+            setPopupMessage(`Deseja confirmar sua inscrição para ${aula.name} na ${horario.dia} às ${horario.hora}?`);
+        } else {
+            setPopupMessage(`Esta turma está cheia. Deseja entrar na lista de espera?`);
+        }
+
+        setShowPopup(true);
+    };
+
+    // Confirmar inscrição
+    const confirmSubscription = () => {
+        // Implementar a lógica de inscrição aqui
+        setPopupMessage("Inscrição realizada com sucesso!");
+
+        // Fecha o pop-up após 2 segundos
+        setTimeout(() => {
+            setShowPopup(false);
+            setPopupMessage("");
+            setSelectedClass(null);
+        }, 2000);
+    };
+
+    // Cancelar inscrição
+    const cancelSubscription = () => {
+        setShowPopup(false);
+        setPopupMessage("");
+        setSelectedClass(null);
+    };
 
     return (
         <div>
@@ -38,11 +77,38 @@ function AulaDetalhePage() {
                 <ul>
                     {aula.horarios.map((h, idx) => (
                         <li key={idx}>
-                            {h.dia} - {h.hora} ({h.sala}) - {h.professor}
-                        </li>
+                            <div className="horario-info">
+                                {h.dia} - {h.hora} ({h.sala}) - {h.professor}
+                            </div>
+                            <button
+                                className="inscrever-btn"
+                                onClick={() => handleSubscribe(h)}
+                            >
+                                Inscrever-se
+                            </button>                        </li>
                     ))}
                 </ul>
+
             </div>
+
+            {/* Pop-up de confirmação */}
+            {showPopup && (
+                <div className="popup-overlay">
+                    <div className="popup-content">
+                        <p>{popupMessage}</p>
+                        {popupMessage.includes("Deseja confirmar") || popupMessage.includes("lista de espera") ? (
+                            <div className="popup-buttons">
+                                <button onClick={confirmSubscription}>Confirmar</button>
+                                <button onClick={cancelSubscription}>Cancelar</button>
+                            </div>
+                        ) : (
+                            <div className="popup-buttons">
+                                <button onClick={cancelSubscription}>Fechar</button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

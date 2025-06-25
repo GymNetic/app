@@ -388,3 +388,7 @@ header.header-scrolled + .full-width-dropdown,
         font-size: 1.4rem;
     }
 }
+
+.user-icon-logged {
+    color: #ff2783;
+}

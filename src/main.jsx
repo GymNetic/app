@@ -6,7 +6,6 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import App from './pages/App';
 import BackButton from './components/BackButton.jsx';
-import { AuthProvider } from './context/AuthContext'; // importe o AuthProvider
 
 function Layout() {
     const location = useLocation();
@@ -25,9 +24,7 @@ function Layout() {
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <BrowserRouter>
-            <AuthProvider>
                 <Layout />
-            </AuthProvider>
         </BrowserRouter>
     </StrictMode>
 );

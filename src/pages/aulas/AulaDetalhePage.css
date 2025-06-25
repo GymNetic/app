@@ -157,3 +157,75 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
 }
+
+/* Estilos para os itens da lista de horários */
+.horario-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+}
+
+.inscrever-btn {
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.inscrever-btn:hover {
+  background-color: #3e8e41;
+}
+
+/* Estilos para o pop-up */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  max-width: 80%;
+  text-align: center;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.popup-buttons button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup-buttons button:first-child {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.popup-buttons button:last-child {
+  background-color: #f44336;
+  color: white;
+}

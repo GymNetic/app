@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import BackButton from "../../components/BackButton.jsx";
 import SearchBar from "../../components/SearchBar.jsx";
 import ClassSlider from "../../components/ClassSlider/ClassSlider.jsx";
+import ScheduleGrid from "../../components/ScheduleGrid.jsx";
 
 function TipoAulaPage() {
     const { tipo } = useParams();
@@ -14,6 +15,8 @@ function TipoAulaPage() {
     const aulaInfo = AulasData.find(aula => aula.slug === tipo);
     const aulaData = TipoAulaData[tipo]; // dados específicos de TipoAulaData
 
+    // Extrair os nomes das aulas desta categoria
+    const allowedTypes = aulaData ? aulaData.map(aula => aula.name) : [];
 
     return (
         <div>
@@ -37,6 +40,7 @@ function TipoAulaPage() {
                 classesPerSlide={3}
 
             />
+            <ScheduleGrid allowedTypes={allowedTypes}/>
         </div>
 
     );

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./DaySelector.css";
 
-export default function DaySelector({ data, onDayChange, dataType = "exercicio", multiSelect = false }) {
+export default function DaySelector({ data, onDayChange, multiSelect = false }) {
     const [diasSelecionados, setDiasSelecionados] = useState(['segunda']);
 
     const diasSemana = [
@@ -14,42 +14,39 @@ export default function DaySelector({ data, onDayChange, dataType = "exercicio",
         { key: 'domingo', label: 'Domingo' }
     ];
 
-    const organizarDadosPorDia = () => {
-        const dadosPorDia = {
-            segunda: [],
-            terca: [],
-            quarta: [],
-            quinta: [],
-            sexta: [],
-            sabado: [],
-            domingo: []
-        };
-
+    const organizarDadosPorDia = (data) => {
+        const dadosPorDia2 = {};
         data.forEach(item => {
-            if (item.dia) {
-                dadosPorDia[item.dia].push(item);
-            } else if (item.dias && Array.isArray(item.dias)) {
-                item.dias.forEach(dia => {
-                    dadosPorDia[dia].push(item);
-                });
-            } else {
-                Object.keys(dadosPorDia).forEach(dia => {
-                    dadosPorDia[dia].push(item);
-                });
+            const dia = normalizarDia(item.dia);
+            if (!dadosPorDia2[dia]) {
+                dadosPorDia2[dia] = [];
             }
+            dadosPorDia2[dia].push(item);
         });
-
-        return dadosPorDia;
+        return dadosPorDia2;
     };
 
-    const dadosPorDia = organizarDadosPorDia();
+    // Função auxiliar para normalizar dias
+    const normalizarDia = (dia) => {
+        if (!dia) return "";
+        return String(dia)
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .trim();
+    };
+
+    const dadosPorDia = organizarDadosPorDia(data);
 
     const handleDayChange = (dia) => {
         let novosSelecionados;
-
+        
         if (multiSelect) {
             if (diasSelecionados.includes(dia)) {
                 novosSelecionados = diasSelecionados.filter(d => d !== dia);
+                if (novosSelecionados.length === 0) {
+                    novosSelecionados = [dia]; // Manter pelo menos um dia selecionado
+                }
             } else {
                 novosSelecionados = [...diasSelecionados, dia];
             }
@@ -59,21 +56,18 @@ export default function DaySelector({ data, onDayChange, dataType = "exercicio",
 
         setDiasSelecionados(novosSelecionados);
 
-        const dadosFiltrados = novosSelecionados.flatMap(d => dadosPorDia[d] || []);
-        onDayChange(dadosFiltrados, novosSelecionados);
+        // Garantir que os dados são válidos antes de chamar onDayChange
+        const dadosFiltrados = novosSelecionados.flatMap(d => 
+            (dadosPorDia[d] || []).filter(item => item && item.id)
+        );
+        
+        onDayChange(dadosFiltrados, novosSelecionados[0]); // Passar apenas o primeiro dia
     };
 
     useEffect(() => {
         const dadosIniciais = diasSelecionados.flatMap(d => dadosPorDia[d] || []);
         onDayChange(dadosIniciais, diasSelecionados);
     }, []);
-
-    const getCountLabel = (count) => {
-        if (dataType === "nutricao") {
-            return count === 1 ? "refeição" : "refeições";
-        }
-        return count === 1 ? "exercício" : "exercícios";
-    };
 
     return (
         <div className="day-selector">
