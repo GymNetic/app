@@ -625,3 +625,11 @@
     background: #c0392b;
     box-shadow: 0 6px 20px rgba(231, 76, 60, 0.25);
 }
+
+/* Adiciona estilos para o campo de ajuda na atualização de senha */
+.form-help-text {
+    color: var(--text-secondary);
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}

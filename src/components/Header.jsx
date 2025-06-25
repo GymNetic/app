@@ -1,23 +1,66 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DropDownMenu from "./DropDownMenu";
 import logo2 from "../logo/logo2.svg";
 import logowhite from "../logo/logowhite.svg";
 import "./Header.css";
 import { MdNotificationsNone, MdNotificationsActive } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FaRegUser } from "react-icons/fa";
+import { FaRegUser, FaUserCircle } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { IoClose } from "react-icons/io5";
 import SideBar from "./SideBar";
 import ThemeToggle from "./ThemeToggle.jsx";
+import { isAuthenticated, getUserData } from "../services/authService";
 
 function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isAuthenticated_, setIsAuthenticated] = useState(false);
+    const [userName, setUserName] = useState("");
     const dropdownRef = useRef(null);
     const headerRef = useRef(null);
     const [temNotificacoesNaoLidas, setTemNotificacoesNaoLidas] = useState(false);
+    const navigate = useNavigate();
+    const [forceUpdate, setForceUpdate] = useState(0);
+
+    // Verificar autenticação quando o componente montar e em intervalos regulares
+    useEffect(() => {
+        const checkAuth = () => {
+            const authenticated = isAuthenticated();
+            setIsAuthenticated(authenticated);
+
+            if (authenticated) {
+                const userData = getUserData();
+                setUserName(userData?.nome || "Usuário");
+            } else {
+                setUserName("");
+            }
+        };
+
+        checkAuth();
+
+        // Verificar autenticação a cada 5 minutos e quando o localStorage mudar
+        const interval = setInterval(checkAuth, 5 * 60 * 1000);
+
+        window.addEventListener('storage', checkAuth);
+
+        // Adicionar evento personalizado para verificar autenticação após login/logout
+        window.addEventListener('auth-changed', checkAuth);
+
+        // Adicionar evento para atualização de perfil
+        window.addEventListener('profile-updated', () => {
+            checkAuth();
+            setForceUpdate(prev => prev + 1); // Força a atualização do componente
+        });
+
+        return () => {
+            clearInterval(interval);
+            window.removeEventListener('storage', checkAuth);
+            window.removeEventListener('auth-changed', checkAuth);
+            window.removeEventListener('profile-updated', checkAuth);
+        };
+    }, [forceUpdate]); // Adicionar forceUpdate para garantir a execução após as atualizações
 
     useEffect(() => {
         const verificarNotificacoes = () => {
@@ -49,6 +92,15 @@ function Header() {
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
+    };
+
+    // Handler para navegar para a área do cliente quando o usuário clica no ícone
+    const handleUserIconClick = () => {
+        if (isAuthenticated_) {
+            navigate('/area-cliente');
+        } else {
+            navigate('/login');
+        }
     };
 
     useEffect(() => {
@@ -92,9 +144,9 @@ function Header() {
     }, []);
 
     return (
-        <div className="header-container">
+        <div className="header-container" key={`header-${forceUpdate}`}>
             <header ref={headerRef} className={isScrolled ? "header-scrolled" : ""}>
-                <Link to="/">
+                <Link to="/home">
                     <img
                         src={isScrolled ? logowhite : logo2}
                         alt="Logo"
@@ -135,10 +187,17 @@ function Header() {
                                     )}
                                 </Link>
                             </li>
-                            <li>
-                                <Link to="/login">
-                                    <FaRegUser/>
-                                </Link>
+                            <li className="user-icon-container" onClick={handleUserIconClick}>
+                                {isAuthenticated_ ? (
+                                    <div className="user-icon-trigger">
+                                        <FaUserCircle className="icon" />
+                                        <span className="user-name">{userName}</span>
+                                    </div>
+                                ) : (
+                                    <div className="user-icon-trigger">
+                                        <FaRegUser className="icon"/>
+                                    </div>
+                                )}
                             </li>
                             <li className="hamburger-menu" onClick={toggleSidebar}>
                                 <GiHamburgerMenu color="#ff2783"/>

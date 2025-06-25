@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import SimplePopUp from "../../components/simplePopUp.jsx";
 import "./Login.css";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import apiService from "../../services/apiService";
+import { updateUserData } from "../../services/authService";
 
 function Login() {
     const [showPopUp, setShowPopUp] = useState(false);
@@ -10,42 +13,61 @@ function Login() {
     const [error, setError] = useState("");
     const [redirectMessage, setRedirectMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
         setRedirectMessage("");
 
-        console.log("Tentando login com:", {
-            Email: mail,
-            Password: password,
-            RememberMe: true
-        });
-
-
         try {
-            const response = await fetch("http://localhost:5005/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ Email: mail, Password: password, RememberMe: true })
+            // Usar o serviço de API para login
+            const data = await apiService.auth.login({ 
+                Email: mail, 
+                Password: password, 
+                RememberMe: true 
             });
-
-            console.log("Status da resposta:", response.status);
-
-            const data = await response.json();
 
             console.log("Resposta do backend:", data);
 
-            if (response.ok) {
-                localStorage.setItem("token", data.token);
-                setRedirectMessage(data.message || "Login efetuado com sucesso!");
-                // Aqui podes redirecionar, se quiseres
-            } else {
-                setError(data.message || "Erro ao autenticar.");
+            // Salvar o token JWT no localStorage
+            localStorage.setItem("token", data.token);
+            
+            // Buscar dados do perfil do usuário após login bem-sucedido
+            try {
+                const userProfile = await apiService.user.getProfile();
+                
+                // Salvar informações do usuário no localStorage usando o novo método
+                updateUserData({
+                    name: userProfile.nome || userProfile.name || "Usuário",
+                    email: userProfile.email || mail,
+                    phone: userProfile.telefone || "",
+                    birthDate: userProfile.dataNascimento || "",
+                    memberSince: userProfile.dataCriacao || new Date().toISOString().split('T')[0],
+                });
+            } catch (profileError) {
+                console.error("Erro ao buscar perfil do usuário:", profileError);
+                
+                // Criar dados básicos do usuário se a API de perfil falhar
+                updateUserData({
+                    name: "Usuário",
+                    email: mail,
+                });
             }
+            
+            setRedirectMessage(data.message || "Login efetuado com sucesso!");
+            
+            // Disparar eventos para atualização dos componentes
+            window.dispatchEvent(new Event('auth-changed'));
+            window.dispatchEvent(new Event('profile-updated'));
+            
+            // Redirecionar para área do cliente após um curto delay
+            setTimeout(() => {
+                navigate("/area-cliente");
+            }, 500);
         } catch (err) {
-            setError("Erro de ligação ao servidor.");
             console.error("Erro ao fazer login:", err);
+            setError("Falha na autenticação. Verifique seu email e código de acesso.");
         }
     };
 

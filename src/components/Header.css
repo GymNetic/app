@@ -392,3 +392,55 @@ header.header-scrolled + .full-width-dropdown,
 .user-icon-logged {
     color: #ff2783;
 }
+
+/* Estilos para o menu do usuário */
+.user-menu-container {
+  position: relative;
+}
+
+.user-menu-trigger {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.user-menu-trigger:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-name {
+  margin-left: 8px;
+  font-size: 14px;
+  color: inherit;
+}
+
+/* Substituindo os estilos do menu dropdown por estilos para o ícone do usuário */
+.user-icon-container {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.user-icon-container:hover {
+  transform: translateY(-2px);
+}
+
+.user-icon-trigger {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.user-icon-trigger:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-name {
+  margin-left: 8px;
+  font-size: 14px;
+  color: inherit;
+}

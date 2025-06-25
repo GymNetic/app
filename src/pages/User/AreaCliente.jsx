@@ -1,64 +1,156 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { User, Heart, Calendar, Settings, BarChart3, BookOpen, CreditCard, Bell } from "lucide-react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./AreaCliente.css";
 import NotificacoesPage from "../NotificacoesPage.jsx";
 import PlanoTreinoPage from "../PlanoTreinoPage.jsx";
 import Mensalidades from "../../components/Mensalidades.jsx";
 import PlanosData from "../../data/PlanosData.js";
+import { isAuthenticated, getUserData, logout, getToken } from "../../services/authService";
+import apiService from "../../services/apiService";
 
 function AreaCliente() {
     const [client, setClient] = useState(null);
     const [editing, setEditing] = useState(false);
-    const [name, setName] = useState("");
+    const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(true);
-    const [error] = useState("");
+    const [error, setError] = useState("");
     const [activeSection, setActiveSection] = useState("conta");
     const [favoriteExercises, setFavoriteExercises] = useState([]);
     const [showPassword, setShowPassword] = useState(false);
     const [currentPlan, setCurrentPlan] = useState(null);
     const [showPlanChanged, setShowPlanChanged] = useState(false);
+    const [dashboardData, setDashboardData] = useState(null);
+    const location = useLocation();
+    // REMOVIDO: refreshKey que estava causando re-renders desnecessários
 
     const navigate = useNavigate();
 
     const menuItems = [
         { id: "conta", label: "Minha Conta", icon: User },
+        { id: "dashboard", label: "Dashboard", icon: BarChart3 },
         { id: "favoritos", label: "Exercícios Favoritos", icon: Heart },
         { id: "planos", label: "Planos de Treino", icon: BookOpen },
         { id: "pagamento", label: "Pagamentos", icon: CreditCard },
         { id: "notificacoes", label: "Notificações", icon: Bell },
-        { id: "configuracoes", label: "Configurações", icon: Settings }
+        { id: "AvaliacaoFisica", label: "Avaliação Física", icon: Settings }
     ];
 
-    useEffect(() => {
-        // Busca dados do utilizador do localStorage
-        const userData = localStorage.getItem("userData");
-        if (userData) {
-            const data = JSON.parse(userData);
-            setClient({
-                name: data.name || "Nome não disponível",
-                email: data.email,
-                phone: data.phone || "",
-                birthDate: data.birthDate || "",
-                memberSince: data.memberSince || "",
-                password: data.password || "Cliente123!", // Definir senha padrão se não existir
-                currentPlan: data.currentPlan || "Plano 1", // Obter plano atual
-            });
-            setName(data.name || "");
-            setEmail(data.email || "");
-            setPassword(data.password || "Cliente123!"); // Inicializar estado da senha
-            setCurrentPlan(data.currentPlan || "Plano 1"); // Inicializar estado do plano
-            setLoading(false);
-        } else {
-            // Se não houver dados, força logout ou redireciona para login
-            setLoading(false);
-            setClient(null);
-        }
-    }, []);
+    // Memoizar a função para evitar re-renders desnecessários
+    const fetchUserData = useCallback(async (skipDashboard = false) => {
+        try {
+            setLoading(true);
 
+            const userProfile = await apiService.user.getProfile();
+
+            const userData = {
+                nome: userProfile.nome && userProfile.nome.trim() ? userProfile.nome : "Nome não disponível",
+                email: userProfile.email,
+                phone: userProfile.telefone || "",
+                photoUrl: userProfile.fotoUrl || "",
+                password: "••••••••",
+                currentPlan: userProfile.planoAtual || "Plano 1"
+            };
+
+            localStorage.setItem("userData", JSON.stringify(userData));
+
+            setClient(userData);
+            setNome(userData.nome);
+            setEmail(userData.email);
+            setCurrentPlan(userData.currentPlan);
+
+            // Apenas tenta carregar dashboard se não for para pular e se for a seção ativa
+            if (!skipDashboard && activeSection === "dashboard") {
+                try {
+                    const dashboard = await apiService.dashboard.getSummary();
+                    setDashboardData(dashboard);
+                } catch (dashboardError) {
+                    console.error("Erro ao carregar dados do dashboard:", dashboardError);
+                    // Não propaga o erro para evitar loops
+                    setDashboardData(null);
+                }
+            }
+
+            setLoading(false);
+        } catch (error) {
+            console.error("Erro ao carregar dados:", error);
+
+            const storedUserData = getUserData();
+            if (storedUserData) {
+                setClient(storedUserData);
+                setNome(storedUserData.nome || "");
+                setEmail(storedUserData.email || "");
+                setCurrentPlan(storedUserData.currentPlan || "Plano 1");
+                setLoading(false);
+            } else {
+                setError("Falha ao carregar dados do usuário. Por favor, faça login novamente.");
+                setTimeout(() => {
+                    logout();
+                    navigate('/login');
+                }, 2000);
+            }
+        }
+    }, [activeSection]); // Incluir activeSection como dependência
+
+    // useEffect para seção ativa baseada na URL
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const section = params.get('section');
+        if (section && menuItems.some(item => item.id === section)) {
+            setActiveSection(section);
+        }
+    }, [location.search]); // Apenas location.search como dependência
+
+    // useEffect principal - executado apenas uma vez no mount
+    useEffect(() => {
+        if (!isAuthenticated()) {
+            navigate('/login');
+            return;
+        }
+
+        // Carregar dados iniciais sem dashboard para evitar loop
+        fetchUserData(true);
+
+        // Handler memoizado que previne loops
+        const handleAuthChanged = (event) => {
+            console.log('Auth changed event received');
+
+            // Verificar se o evento não foi disparado por esta mesma instância
+            if (event?.detail?.source !== 'area-cliente' && isAuthenticated()) {
+                fetchUserData(true); // Pular dashboard para evitar loops
+            }
+        };
+
+        // Event listeners para atualizações externas
+        window.addEventListener('auth-changed', handleAuthChanged);
+        window.addEventListener('profile-updated', handleAuthChanged);
+
+        return () => {
+            window.removeEventListener('auth-changed', handleAuthChanged);
+            window.removeEventListener('profile-updated', handleAuthChanged);
+        };
+    }, [navigate, fetchUserData]); // Dependências mínimas necessárias
+
+    // useEffect separado para carregar dashboard quando necessário
+    useEffect(() => {
+        if (activeSection === "dashboard" && client && !dashboardData) {
+            const loadDashboard = async () => {
+                try {
+                    const dashboard = await apiService.dashboard.getSummary();
+                    setDashboardData(dashboard);
+                } catch (dashboardError) {
+                    console.error("Erro ao carregar dados do dashboard:", dashboardError);
+                    setDashboardData(null);
+                }
+            };
+            loadDashboard();
+        }
+    }, [activeSection, client, dashboardData]);
+
+    // useEffect para favoritos
     useEffect(() => {
         const loadFavorites = () => {
             const favorites = JSON.parse(localStorage.getItem('favoriteExercises') || '[]');
@@ -66,30 +158,32 @@ function AreaCliente() {
         };
 
         loadFavorites();
-        // Adiciona um event listener para atualizar os favoritos quando mudarem
         window.addEventListener('storage', loadFavorites);
         return () => window.removeEventListener('storage', loadFavorites);
     }, []);
 
-    const handleEdit = (e) => {
+    const handleEdit = async (e) => {
         if (e) e.preventDefault();
+        try {
+            const updateData = { nome, email };
+            await apiService.user.updateProfile(updateData);
+            setEditing(false);
+            setError("");
+            // REMOVIDO: setRefreshKey que causava re-render
+            alert("Dados atualizados com sucesso!");
 
-        // Atualiza os dados do cliente incluindo a senha
-        const updatedClient = { ...client, name, email, password };
-        setClient(updatedClient);
-
-        // Atualiza os dados no localStorage
-        const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-        userData.name = name;
-        userData.email = email;
-        userData.password = password;
-        localStorage.setItem("userData", JSON.stringify(userData));
-
-        setEditing(false);
+            // Atualizar dados localmente sem forçar re-render
+            setClient(prevClient => ({
+                ...prevClient,
+                nome,
+                email
+            }));
+        } catch (error) {
+            setError(error.message || "Falha ao atualizar os dados. Tente novamente.");
+        }
     };
 
     const handleUnfavorite = (exerciseId, exerciseName) => {
-        // Mostrar confirmação antes de desfavoritar
         if (window.confirm(`Tem certeza que deseja remover "${exerciseName}" dos seus favoritos?`)) {
             const favorites = JSON.parse(localStorage.getItem('favoriteExercises') || '[]');
             const updatedFavorites = favorites.filter(ex => ex.id !== exerciseId);
@@ -98,38 +192,57 @@ function AreaCliente() {
         }
     };
 
-    const handlePlanChange = (newPlan) => {
-        setCurrentPlan(newPlan);
-        
-        // Atualiza os dados no localStorage
-        const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-        userData.currentPlan = newPlan;
-        localStorage.setItem("userData", JSON.stringify(userData));
-        
-        // Atualizar dados do cliente no estado
-        setClient(prevClient => ({
-            ...prevClient,
-            currentPlan: newPlan
-        }));
-        
-        // Mostrar mensagem de sucesso
-        setShowPlanChanged(true);
-        setTimeout(() => {
-            setShowPlanChanged(false);
-        }, 3000);
+    const handlePlanChange = async (newPlan) => {
+        try {
+            const token = getToken();
+
+            const response = await fetch("http://localhost:5005/api/user/update-plan", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    planId: newPlan
+                })
+            });
+
+            if (response.ok) {
+                setCurrentPlan(newPlan);
+
+                const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+                userData.currentPlan = newPlan;
+                localStorage.setItem("userData", JSON.stringify(userData));
+
+                setClient(prevClient => ({
+                    ...prevClient,
+                    currentPlan: newPlan
+                }));
+
+                // CUIDADO: Estes eventos podem causar loops se não controlados
+                // Considere remover ou usar com parcimônia
+                // window.dispatchEvent(new Event('auth-changed'));
+                // window.dispatchEvent(new Event('profile-updated'));
+
+                // REMOVIDO: setRefreshKey que causava re-render
+                setShowPlanChanged(true);
+                setTimeout(() => {
+                    setShowPlanChanged(false);
+                }, 3000);
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Erro ao atualizar plano");
+            }
+        } catch (error) {
+            console.error("Erro ao atualizar plano:", error);
+            setError("Falha ao atualizar o plano. Tente novamente.");
+        }
     };
 
-    // Função para desconectar conta
     const handleLogout = () => {
-        // Mostrar confirmação antes de desconectar
         if (window.confirm("Tem certeza que deseja desconectar sua conta?")) {
-            // Chamar função de logout do contexto
             logout();
-
-            // Redirecionar para a página inicial
             navigate("/");
-
-            // Opcional: mostrar mensagem de logout bem-sucedido
             alert("Desconectado com sucesso!");
         }
     };
@@ -142,10 +255,15 @@ function AreaCliente() {
                         <h2 className="section-title">Minha Conta</h2>
                         {!editing ? (
                             <div className="account-info">
+                                {client?.photoUrl && (
+                                    <div className="profile-photo">
+                                        <img src={client.photoUrl} alt="Foto de perfil" />
+                                    </div>
+                                )}
                                 <div className="info-card">
                                     <div className="info-row">
                                         <span className="info-label">Nome:</span>
-                                        <span className="info-value">{client?.name}</span>
+                                        <span className="info-value">{client?.nome}</span>
                                     </div>
                                     <div className="info-row">
                                         <span className="info-label">Email:</span>
@@ -160,10 +278,7 @@ function AreaCliente() {
                                             <button
                                                 type="button"
                                                 className="password-toggle-btn"
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                aria-label={showPassword ? "Esconder código de acesso" : "Mostrar código de acesso"}
                                             >
-                                                {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                                             </button>
                                         </div>
                                     </div>
@@ -171,26 +286,27 @@ function AreaCliente() {
                                         <span className="info-label">Telefone:</span>
                                         <span className="info-value">{client?.phone}</span>
                                     </div>
-                                    <div className="info-row">
-                                        <span className="info-label">Data de Nascimento:</span>
-                                        <span className="info-value">{client?.birthDate}</span>
-                                    </div>
-                                    <div className="info-row">
-                                        <span className="info-label">Membro desde:</span>
-                                        <span className="info-value">{client?.memberSince}</span>
-                                    </div>
                                 </div>
                                 <div className="info-actions">
-                                <button className="btn-primary" onClick={() => setEditing(true)}>
-                                    Editar Dados
-                                </button>
-                                <button className="btn-outline" onClick={handleLogout}>
-                                    Desconectar Conta
-                                </button>
+                                    <button className="btn-primary" onClick={() => setEditing(true)}>
+                                        Editar Dados
+                                    </button>
+                                    <button className="btn-outline" onClick={handleLogout}>
+                                        Desconectar Conta
+                                    </button>
                                 </div>
                             </div>
                         ) : (
                             <div className="edit-form">
+                                <div className="form-group">
+                                    <label>Nome:</label>
+                                    <input
+                                        type="text"
+                                        value={nome}
+                                        onChange={e => setNome(e.target.value)}
+                                        required
+                                    />
+                                </div>
                                 <div className="form-group">
                                     <label>Email:</label>
                                     <input
@@ -207,7 +323,7 @@ function AreaCliente() {
                                             type={showPassword ? "text" : "password"}
                                             value={password}
                                             onChange={e => setPassword(e.target.value)}
-                                            required
+                                            placeholder="Deixe em branco para manter o mesmo"
                                         />
                                         <button
                                             type="button"
@@ -217,10 +333,20 @@ function AreaCliente() {
                                             {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
                                         </button>
                                     </div>
+                                    <small className="form-help-text">
+                                        Deixe em branco para manter o código atual ou digite um novo código com pelo menos 6 caracteres.
+                                    </small>
                                 </div>
                                 <div className="form-actions">
                                     <button onClick={handleEdit} className="btn-primary">Salvar</button>
-                                    <button onClick={() => setEditing(false)} className="btn-secondary">
+                                    <button
+                                        onClick={() => {
+                                            setEditing(false);
+                                            setPassword("••••••••");
+                                            setShowPassword(false);
+                                        }}
+                                        className="btn-secondary"
+                                    >
                                         Cancelar
                                     </button>
                                 </div>
@@ -228,85 +354,9 @@ function AreaCliente() {
                         )}
                     </div>
                 );
-
-            case "favoritos":
-                return (
-                    <div className="content-section">
-                        <h2 className="section-title">Exercícios Favoritos</h2>
-                        <div className="favorites-grid">
-                            {favoriteExercises.map(exercise => (
-                                <div key={exercise.id} className="exercise-card">
-                                    <div className="exercise-header">
-                                        <h3>{exercise.name}</h3>
-                                        <button
-                                            onClick={() => handleUnfavorite(exercise.id, exercise.name)}
-                                            className="unfavorite-button"
-                                        >
-                                            <Heart className="heart-icon filled" size={20} />
-                                        </button>
-                                    </div>
-                                    <p className="exercise-category">{exercise.category}</p>
-                                    {exercise.photo && (
-                                        <img
-                                            src={exercise.photo}
-                                            alt={exercise.name}
-                                            className="exercise-photo"
-                                        />
-                                    )}
-                                    <button
-                                        onClick={() => handleUnfavorite(exercise.id, exercise.name)}
-                                        className="desfavoritar-btn"
-                                    >
-                                        Desfavoritar
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
-
-            case "notificacoes":
-                return (
-                    <NotificacoesPage/>
-                );
-
-            case "planos":
-                return (
-                    <PlanoTreinoPage/>
-                );
-            case "pagamento":
-                return (
-                    <div className="content-section">
-                        <h2 className="section-title">Plano atual de mensalidade</h2>
-                        
-                        {showPlanChanged && (
-                            <div className="success-message">
-                                <p>Plano alterado com sucesso para {currentPlan}!</p>
-                            </div>
-                        )}
-                        
-                        <div className="pagamentos-container">
-                            {PlanosData.map((mensalidade, idx) => (
-                                <Mensalidades
-                                    key={idx}
-                                    name={mensalidade.name}
-                                    price={mensalidade.price}
-                                    description={mensalidade.description}
-                                    features={mensalidade.features}
-                                    isCurrentPlan={currentPlan === mensalidade.name}
-                                    onPlanChange={handlePlanChange}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                );
+            // Adicione os outros cases conforme necessário
             default:
-                return (
-                    <div className="content-section">
-                        <h2 className="section-title">{menuItems.find(item => item.id === activeSection)?.label}</h2>
-                        <p className="coming-soon">Esta seção está em desenvolvimento...</p>
-                    </div>
-                );
+                return <div>Selecione uma opção no menu.</div>;
         }
     };
 
@@ -314,6 +364,7 @@ function AreaCliente() {
     if (error) return <div className="error">Erro: {error}</div>;
 
     return (
+        // REMOVIDO: key que forçava re-render do componente inteiro
         <div className="area-cliente">
             <div className="sidebar">
                 <div className="sidebar-header">

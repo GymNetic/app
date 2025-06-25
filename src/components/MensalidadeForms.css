@@ -234,15 +234,140 @@
     color: var(--brand-color);
 }
 
-/* Responsive Design */
+/* Estilos para os campos de criação de senha */
+.password-creation-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.password-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.password-fields .input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.password-fields label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.password-fields input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.password-fields input:focus {
+  border-color: var(--brand-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 39, 131, 0.2);
+}
+
+.plan-summary {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.plan-summary h3 {
+  font-size: 1.2rem;
+  color: var(--brand-color);
+  margin: 0 0 0.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.plan-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.plan-details p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-message:before {
+  content: "⚠";
+  font-size: 1.2rem;
+}
+
+/* Estilos para os botões */
+.mensalidade-forms-button button {
+  transition: all 0.3s ease;
+}
+
+.mensalidade-forms-button button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.mensalidade-forms-button button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 39, 131, 0.25);
+}
+
+/* Estilos responsivos */
 @media (max-width: 768px) {
-    .mensalidade-forms-container {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .mensalidade-forms {
-        margin: 1rem;
-        padding: 1rem;
-    }
+  .password-creation-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .plan-summary {
+    order: -1;
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Estilo para indicar plano atual */
+.current-plan-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: var(--brand-color);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(255, 39, 131, 0.25);
+}
+
+.mensalidade-card.current-plan {
+  position: relative;
+  border: 2px solid var(--brand-color);
+}
+
+.disabled-button {
+  background-color: #e0e0e0 !important;
+  cursor: not-allowed !important;
+  color: #757575 !important;
 }
