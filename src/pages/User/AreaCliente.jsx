@@ -219,12 +219,7 @@ function AreaCliente() {
                     currentPlan: newPlan
                 }));
 
-                // CUIDADO: Estes eventos podem causar loops se não controlados
-                // Considere remover ou usar com parcimônia
-                // window.dispatchEvent(new Event('auth-changed'));
-                // window.dispatchEvent(new Event('profile-updated'));
 
-                // REMOVIDO: setRefreshKey que causava re-render
                 setShowPlanChanged(true);
                 setTimeout(() => {
                     setShowPlanChanged(false);
