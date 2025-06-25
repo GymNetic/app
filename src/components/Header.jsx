@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DropDownMenu from "./DropDownMenu";
 import logo2 from "../logo/logo2.svg";
