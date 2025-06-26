@@ -31,12 +31,10 @@ function AreaCliente() {
 
     const menuItems = [
         { id: "conta", label: "Minha Conta", icon: User },
-        { id: "dashboard", label: "Dashboard", icon: BarChart3 },
         { id: "favoritos", label: "Exercícios Favoritos", icon: Heart },
         { id: "planos", label: "Planos de Treino", icon: BookOpen },
         { id: "pagamento", label: "Pagamentos", icon: CreditCard },
         { id: "notificacoes", label: "Notificações", icon: Bell },
-        { id: "AvaliacaoFisica", label: "Avaliação Física", icon: Settings }
     ];
 
     // Memoizar a função para evitar re-renders desnecessários
@@ -349,9 +347,146 @@ function AreaCliente() {
                         )}
                     </div>
                 );
-            // Adicione os outros cases conforme necessário
+
+            case "favoritos":
+                return (
+
+                    <div className="content-section">
+
+                        <h2 className="section-title">Exercícios Favoritos</h2>
+
+                        <div className="favorites-grid">
+
+                            {favoriteExercises.map(exercise => (
+
+                                <div key={exercise.id} className="exercise-card">
+
+                                    <div className="exercise-header">
+
+                                        <h3>{exercise.name}</h3>
+
+
+                                        <Heart className="heart-icon filled" size={20} />
+
+
+                                        <button
+
+
+                                            onClick={() => handleUnfavorite(exercise.id, exercise.name)}
+
+
+                                            className="unfavorite-button"
+
+
+                                        >
+
+                                        </button>
+
+                                    </div>
+
+                                    <p className="exercise-category">{exercise.category}</p>
+
+
+                                    {exercise.photo && (
+
+
+                                        <img
+
+
+                                            src={exercise.photo}
+
+
+                                            alt={exercise.name}
+
+
+                                            className="exercise-photo"
+
+
+                                        />
+
+
+                                    )}
+
+
+                                    <button
+
+
+                                        onClick={() => handleUnfavorite(exercise.id, exercise.name)}
+
+
+                                        className="desfavoritar-btn"
+
+
+                                    >
+
+
+                                        Desfavoritar
+
+
+                                    </button>
+
+                                </div>
+
+                            ))}
+
+                        </div>
+
+                    </div>
+
+                );
+            case "notificacoes":
+                return (
+                <NotificacoesPage/>
+            );
+            case "planos":
+                return (
+
+
+                    <PlanoTreinoPage/>
+
+
+                );
+            case "pagamento":
+                return (
+                                <div className="pagamentos-container">
+
+
+                                    {PlanosData.map((mensalidade, idx) => (
+
+
+                                        <Mensalidades
+
+
+                                            key={idx}
+
+
+                                            name={mensalidade.name}
+
+
+                                            price={mensalidade.price}
+
+
+                                            description={mensalidade.description}
+
+
+                                            features={mensalidade.features}
+
+
+                                            isCurrentPlan={currentPlan === mensalidade.name}
+
+
+                                            onPlanChange={handlePlanChange}
+
+
+                                        />
+
+
+                                    ))}
+
+                                </div>
+                            );
             default:
-                return <div>Selecione uma opção no menu.</div>;
+                return (<div>Selecione uma opção no menu.</div>);
         }
     };
 

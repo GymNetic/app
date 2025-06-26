@@ -413,8 +413,11 @@ header.header-scrolled + .full-width-dropdown,
 
 .user-name {
   margin-left: 8px;
-  font-size: 14px;
   color: inherit;
+    font-family: "Pathway Gothic One", sans-serif;
+    font-weight: 400; /* Regular */
+    text-transform: uppercase; /* Optional: Uppercase style */
+    font-size: 30px; /* Optional: Font size */
 }
 
 /* Substituindo os estilos do menu dropdown por estilos para o ícone do usuário */
