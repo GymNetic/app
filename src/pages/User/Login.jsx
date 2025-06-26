@@ -169,14 +169,6 @@ function Login() {
                             >
                                 ENTRAR
                             </button>
-
-                            <button
-                                type="button"
-                                className="login-link"
-                                onClick={() => setShowPopUp(true)}
-                            >
-                                O que é um Código de Acesso?
-                            </button>
                         </div>
 
                         {error && (

@@ -87,7 +87,7 @@ function MensalidadeForms() {
             <h1>Mensalidades</h1>
             <div className="mensalidade-forms-text">
                 <p>Selecionaste este plano: {planData.planName}</p>
-                <p>{showPasswordFields ? "Crie sua senha para finalizar" : "Insere as tuas informações"}</p>
+                <p>{showPasswordFields ? "Cria a tua senha para finalizares a adesão" : "Insere as tuas informações"}</p>
             </div>
 
             {error && (
@@ -165,7 +165,7 @@ function MensalidadeForms() {
                     <div className="password-creation-form">
                         <div className="password-fields">
                             <div className="input-group">
-                                <label htmlFor="password">Crie seu Código de Acesso</label>
+                                <label htmlFor="password">Cria o teu Código de Acesso</label>
                                 <input
                                     type="password"
                                     id="password"
@@ -178,7 +178,7 @@ function MensalidadeForms() {
                                 />
                             </div>
                             <div className="input-group">
-                                <label htmlFor="confirmPassword">Confirme seu Código de Acesso</label>
+                                <label htmlFor="confirmPassword">Confirma o teu Código de Acesso</label>
                                 <input
                                     type="password"
                                     id="confirmPassword"
@@ -187,7 +187,7 @@ function MensalidadeForms() {
                                     onChange={handleChange}
                                     required
                                     minLength="6"
-                                    placeholder="Repita o código de acesso"
+                                    placeholder="Repete o código de acesso"
                                 />
                             </div>
                         </div>
