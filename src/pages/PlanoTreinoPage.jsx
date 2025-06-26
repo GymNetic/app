@@ -2,24 +2,38 @@ import { useState, useEffect } from "react";
 import "./PlanoTreinoPage.css";
 import DaySelector from "../components/DaySelector.jsx";
 
-// Função utilitária para normalizar nomes de dias
-function normalizarDia(dia) {
-    if (!dia) return "";
-    if (typeof dia !== "string") {
-        dia = String(dia ?? "").trim();
-    }
-    return dia
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim()
-        .toLowerCase();
+// Importação com try/catch para debug
+let exerciseData = [];
+try {
+    const importedData = await import("../data/exerciseData");
+    exerciseData = importedData.exerciseData || importedData.default || [];
+} catch (error) {
+    console.error("Erro ao importar exerciseData:", error);
+    // Dados de fallback para teste
+    exerciseData = [
+        {
+            id: 1,
+            nome: "Supino Reto",
+            grupoMuscular: "Peito",
+            series: "4",
+            repeticoes: "8-12",
+            dia: "segunda"
+        },
+        {
+            id: 2,
+            nome: "Agachamento",
+            grupoMuscular: "Pernas",
+            series: "4",
+            repeticoes: "10-15",
+            dia: "segunda"
+        }
+    ];
 }
 
 export default function PlanoTreinoPage() {
     const [exerciciosDoDia, setExerciciosDoDia] = useState([]);
     const [diaAtual, setDiaAtual] = useState('segunda');
     const [dataLoaded, setDataLoaded] = useState(false);
-    const [exerciseData, setExerciseData] = useState([]);
 
     // Função para formatar o nome do(s) dia(s)
     const formatarDia = (dia) => {
@@ -31,34 +45,27 @@ export default function PlanoTreinoPage() {
         return dia.charAt(0).toUpperCase() + dia.slice(1);
     };
 
-    // Carrega os dados do plano do localStorage ao montar o componente
+    // Carrega os dados ao montar o componente
     useEffect(() => {
-        const plano = JSON.parse(localStorage.getItem("planoTreino")) || [];
-        setExerciseData(plano);
-        setDataLoaded(true);
+        const loadData = async () => {
+            try {
+                const module = await import("../data/exerciseData");
+                const data = module.exerciseData || module.default || [];
+                console.log("Dados carregados:", data);
+                setDataLoaded(true);
+            } catch (error) {
+                console.error("Erro ao carregar dados:", error);
+                setDataLoaded(true);
+            }
+        };
+
+        loadData();
     }, []);
 
-    // Atualizar exercícios do dia sempre que mudar o dia ou os dados
-    useEffect(() => {
-        const diaNorm = normalizarDia(diaAtual);
-        const exerciciosFiltrados = exerciseData.filter(ex => {
-            const diaExNorm = normalizarDia(ex.dia);
-            return diaExNorm === diaNorm;
-        });
-        setExerciciosDoDia(exerciciosFiltrados);
-    }, [exerciseData, diaAtual]);
-
-    const handleDayChange = (exercicios, dias) => {
-        // Garantir que sempre temos uma string única para diaAtual
-        const dia = Array.isArray(dias) ? dias[0] : dias;
+    const handleDayChange = (exercicios, dia) => {
+        console.log(`Mudança para ${Array.isArray(dia) ? dia.join(', ') : dia}:`, exercicios);
+        setExerciciosDoDia(exercicios || []);
         setDiaAtual(dia);
-        
-        // Filtrar exercícios para o dia selecionado
-        const diaNorm = normalizarDia(dia);
-        const exerciciosFiltrados = exerciseData.filter(ex => 
-            normalizarDia(ex.dia) === diaNorm
-        );
-        setExerciciosDoDia(exerciciosFiltrados);
     };
 
     if (!dataLoaded) {

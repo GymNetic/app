@@ -10,6 +10,7 @@ import PlanosData from "../../data/PlanosData.js";
 import { isAuthenticated, getUserData, logout, getToken } from "../../services/authService";
 import apiService from "../../services/apiService";
 import ScheduleGrid from "../../components/ScheduleGrid.jsx";
+import PlanoNutricionalPage from "../PlanoNutricionalPage.jsx";
 
 function AreaCliente() {
     const [client, setClient] = useState(null);
@@ -33,10 +34,11 @@ function AreaCliente() {
 
     const menuItems = [
         { id: "conta", label: "Minha Conta", icon: User },
-        { id: "minhas-aulas", label: "Minhas Aulas", icon: Calendar },
+        { id: "minhas-aulas", label: "As Minhas Aulas", icon: Calendar },
         { id: "favoritos", label: "Exercícios Favoritos", icon: Heart },
-        { id: "planos", label: "Planos de Treino", icon: BookOpen },
-        { id: "pagamento", label: "Pagamentos", icon: CreditCard },
+        { id: "planos", label: "Plano de Treino", icon: BookOpen },
+        { id: "planosn", label: "Plano de Dieta", icon: BookOpen },
+        { id: "pagamento", label: "Planos de Mensalidades", icon: CreditCard },
         { id: "notificacoes", label: "Notificações", icon: Bell },
     ];
 
@@ -475,6 +477,10 @@ function AreaCliente() {
             case "planos":
                 return (
                     <PlanoTreinoPage/>
+                );
+            case "planosn":
+                return (
+                    <PlanoNutricionalPage/>
                 );
             case "pagamento":
                 return (
