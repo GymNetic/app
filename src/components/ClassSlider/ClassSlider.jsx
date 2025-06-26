@@ -1,11 +1,12 @@
 import './ClassSlider.css';
 import { useState } from 'react';
 import BtnSlider from '../Slider/BtnSlider';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function ClassSlider({ data = [], classesPerSlide = 3, title, onCardClick }) {
     const [slideIndex, setSlideIndex] = useState(0);
     const [hoveredCard, setHoveredCard] = useState(null);
+    const navigate = useNavigate();
 
     const extendedClasses = [...data, ...data.slice(0, classesPerSlide)];
     const totalSlides = Math.ceil(extendedClasses.length / classesPerSlide);
@@ -24,6 +25,13 @@ function ClassSlider({ data = [], classesPerSlide = 3, title, onCardClick }) {
             return;
         }
         setSlideIndex(slideIndex - 1);
+    };
+
+    const handleCardClick = (item) => {
+        if (onCardClick) {
+            onCardClick(item);
+        }
+        navigate(item.link);
     };
 
     return (
@@ -53,23 +61,21 @@ function ClassSlider({ data = [], classesPerSlide = 3, title, onCardClick }) {
                                             className="class-card-container"
                                             onMouseEnter={() => setHoveredCard(item.id)}
                                             onMouseLeave={() => setHoveredCard(null)}
-                                            onClick={() => onCardClick && onCardClick(item)}
-                                            style={{ cursor: onCardClick ? 'pointer' : 'default' }}
+                                            onClick={() => handleCardClick(item)}
+                                            style={{ cursor: 'pointer' }}
                                         >
-                                            <Link to={item.link} className="class-card-link">
-                                                <div
-                                                    className="class-card"
-                                                    style={{
-                                                        backgroundImage: `url(${item.image})`,
-                                                        backgroundSize: 'cover',
-                                                        backgroundPosition: 'center'
-                                                    }}>
-                                                    <h2 className="class-title">{item.title}</h2>
-                                                    {item.desc && hoveredCard === item.id && (
-                                                        <p className="card-description">{item.desc}</p>
-                                                    )}
-                                                </div>
-                                            </Link>
+                                            <div
+                                                className="class-card"
+                                                style={{
+                                                    backgroundImage: `url(${item.image})`,
+                                                    backgroundSize: 'cover',
+                                                    backgroundPosition: 'center'
+                                                }}>
+                                                <h2 className="class-title">{item.title}</h2>
+                                                {item.desc && hoveredCard === item.id && (
+                                                    <p className="card-description">{item.desc}</p>
+                                                )}
+                                            </div>
                                         </div>
                                     ))}
                             </div>
