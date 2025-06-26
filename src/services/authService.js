@@ -46,13 +46,49 @@ export const getUserData = () => {
     return userData ? JSON.parse(userData) : null;
 };
 
-// Fazer logout (remover token e dados do usuário)
+// Adicionar flag para evitar eventos duplicados
+let isProcessingAuthChange = false;
+
+export const login = async (email, password) => {
+    try {
+        // ...existing code...
+        
+        // Utilizar a flag para prevenir eventos duplicados
+        if (!isProcessingAuthChange) {
+            isProcessingAuthChange = true;
+            
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Disparar o evento apenas uma vez
+            window.dispatchEvent(new Event('auth-changed'));
+            
+            setTimeout(() => {
+                isProcessingAuthChange = false;
+            }, 100);
+        }
+        
+        return true;
+    } catch (error) {
+        // ...existing code...
+    }
+};
+
 export const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userData');
-    // Disparar evento para notificar outros componentes
-    window.dispatchEvent(new Event('auth-changed'));
-    window.dispatchEvent(new Event('profile-updated'));
+    // Utilizar a flag para prevenir eventos duplicados
+    if (!isProcessingAuthChange) {
+        isProcessingAuthChange = true;
+        
+        localStorage.removeItem('token');
+        localStorage.removeItem('userData');
+        
+        // Disparar o evento apenas uma vez
+        window.dispatchEvent(new Event('auth-changed'));
+        
+        setTimeout(() => {
+            isProcessingAuthChange = false;
+        }, 100);
+    }
 };
 
 // Atualizar dados do usuário no localStorage

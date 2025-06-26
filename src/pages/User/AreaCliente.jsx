@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { User, Heart, Calendar, Settings, BarChart3, BookOpen, CreditCard, Bell } from "lucide-react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -28,7 +28,7 @@ function AreaCliente() {
     const [dashboardData, setDashboardData] = useState(null);
     const [inscricoesAulas, setInscricoesAulas] = useState([]);
     const location = useLocation();
-    // REMOVIDO: refreshKey que estava causando re-renders desnecessários
+    const [dataFetched, setDataFetched] = useState(false);
 
     const navigate = useNavigate();
 
@@ -111,35 +111,60 @@ function AreaCliente() {
         }
     }, [location.search]); // Apenas location.search como dependência
 
-    // useEffect principal - executado apenas uma vez no mount
+    // Criar uma referência para rastrear o estado de autenticação anterior
+    const prevAuthState = useRef(isAuthenticated());
+    
+    // useEffect principal - executado apenas UMA VEZ
     useEffect(() => {
         if (!isAuthenticated()) {
             navigate('/login');
             return;
         }
 
-        // Carregar dados iniciais sem dashboard para evitar loop
-        fetchUserData(true);
+        // Carregar dados do usuário apenas uma vez
+        if (!dataFetched) {
+            fetchUserData();
+        }
 
-        // Handler memoizado que previne loops
-        const handleAuthChanged = (event) => {
-            console.log('Auth changed event received');
-
-            // Verificar se o evento não foi disparado por esta mesma instância
-            if (event?.detail?.source !== 'area-cliente' && isAuthenticated()) {
-                fetchUserData(true); // Pular dashboard para evitar loops
+        // Event listeners para atualizações
+        const handleAuthChanged = () => {
+            // Verificar se o estado de autenticação realmente mudou para evitar loops
+            const currentAuthState = isAuthenticated();
+            if (prevAuthState.current !== currentAuthState) {
+                console.log("Estado de autenticação realmente mudou");
+                prevAuthState.current = currentAuthState;
+                
+                if (currentAuthState) {
+                    // Apenas redefine a flag para permitir uma nova busca
+                    // sem chamar fetchUserData diretamente aqui
+                    setDataFetched(false);
+                } else {
+                    // Se o usuário foi deslogado
+                    navigate('/login');
+                }
             }
         };
 
-        // Event listeners para atualizações externas
+        // Ouvinte para "profile-updated" - tratado separadamente
+        const handleProfileUpdated = () => {
+            setDataFetched(false); // Apenas marca para recarregar dados
+        };
+
         window.addEventListener('auth-changed', handleAuthChanged);
-        window.addEventListener('profile-updated', handleAuthChanged);
+        window.addEventListener('profile-updated', handleProfileUpdated);
 
         return () => {
             window.removeEventListener('auth-changed', handleAuthChanged);
-            window.removeEventListener('profile-updated', handleAuthChanged);
+            window.removeEventListener('profile-updated', handleProfileUpdated);
         };
-    }, [navigate, fetchUserData]); // Dependências mínimas necessárias
+    }, [navigate, fetchUserData]);
+
+    // Efeito separado para reagir à mudança de dataFetched
+    useEffect(() => {
+        if (!dataFetched && isAuthenticated()) {
+            fetchUserData();
+        }
+    }, [dataFetched, fetchUserData]);
 
     // useEffect para inscrições em aulas
     useEffect(() => {
