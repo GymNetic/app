@@ -633,3 +633,176 @@
     margin-top: 5px;
     display: block;
 }
+
+/* Estilos para seção de Minhas Aulas */
+.empty-inscricoes {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.empty-inscricoes p {
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.inscricoes-container {
+  margin-bottom: 2rem;
+}
+
+.inscricoes-container h3{
+    color: var(--text-primary);
+}
+
+    .inscricoes-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.inscricao-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.inscricao-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.inscricao-info h4 {
+  color: var(--brand-color, #1976d2);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-family: Montserrat, sans-serif;
+}
+
+.inscricao-info p {
+  margin: 0.5rem 0;
+  color: #333;
+  font-family: Montserrat, sans-serif;
+  position: relative;
+  padding-left: 20px;
+}
+
+.inscricao-info p::before {
+  content: "•";
+  position: absolute;
+  left: 5px;
+  color: var(--brand-color, #333);
+}
+
+.inscricao-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.btn-cancel {
+  background-color: var(--brand-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: Montserrat, sans-serif;
+  transition: background-color 0.2s;
+}
+
+.btn-cancel:hover {
+  background-color: #e53935;
+}
+
+.ver-aulas-section {
+  margin-top: 2.5rem;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 1.5rem;
+}
+
+.ver-aulas-section h3 {
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  font-family: Montserrat, sans-serif;
+}
+
+/* Estilos específicos para o popup na área cliente */
+.aula-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.aula-popup {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: Montserrat, sans-serif;
+}
+
+.aula-popup-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.75rem;
+}
+
+.aula-popup-header h2 {
+  color: var(--brand-color, #1976d2);
+  margin-bottom: 1rem;
+  font-family: Montserrat, sans-serif;
+}
+
+.aula-popup-body {
+  margin-bottom: 1.5rem;
+}
+
+.aula-popup-body p {
+  margin: 0.5rem 0;
+  color: #333;
+  font-family: Montserrat, sans-serif;
+  position: relative;
+  padding-left: 20px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.aula-popup-body p::before {
+  content: "•";
+  position: absolute;
+  left: 5px;
+  color: var(--brand-color, #333);
+}
+
+.aula-popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid #eee;
+}

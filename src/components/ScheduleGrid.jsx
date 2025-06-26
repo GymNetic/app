@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ScheduleGrid.css";
 import TipoAulaData from "../data/TipoAulaData.js";
 
@@ -36,7 +36,9 @@ function getScheduleEvents(allowedTypes) {
             instructor: horario.professor,
             duration: aula.duracao,
             level: aula.intensidade,
-            room: horario.sala
+            room: horario.sala,
+            day: horario.dia,
+            hour: horario.hora
           };
         });
       }
@@ -51,6 +53,7 @@ export default function ScheduleGrid({ allowedTypes }) {
   const [timeperiod, setTimePeriod] = useState("morning");
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [inscricoesAulas, setInscricoesAulas] = useState([]);
 
   const scheduleEvents = getScheduleEvents(allowedTypes);
 
@@ -61,6 +64,32 @@ export default function ScheduleGrid({ allowedTypes }) {
       );
 
   const hours = timeperiod === "morning" ? morningHours : afternoonHours;
+
+  useEffect(() => {
+    // Carregar inscrições já realizadas
+    const loadInscricoes = () => {
+      const inscricoes = JSON.parse(localStorage.getItem('inscricoesAulas') || '[]');
+      setInscricoesAulas(inscricoes);
+    };
+
+    loadInscricoes();
+    window.addEventListener('inscricoes-aulas-updated', loadInscricoes);
+    
+    return () => {
+      window.removeEventListener('inscricoes-aulas-updated', loadInscricoes);
+    };
+  }, []);
+
+  // Verifica se um evento já tem inscrição
+  const isInscrito = (event) => {
+    if (!event) return false;
+    
+    return inscricoesAulas.some(
+      aula => aula.type === event.type && 
+              aula.day === event.day && 
+              aula.hour === event.hour
+    );
+  };
 
   const handleCellClick = (event) => {
     if (event) {
@@ -75,9 +104,59 @@ export default function ScheduleGrid({ allowedTypes }) {
   };
 
   const handleInscricao = () => {
-    // Lógica para inscrição na aula
+    if (!selectedEvent) return;
+    
+    // Verificar se já existe inscrição para esta aula
+    if (isInscrito(selectedEvent)) {
+      alert("Você já está inscrito nesta aula!");
+      setShowPopup(false);
+      return;
+    }
+    
+    // Adicionar à lista de inscrições no localStorage
+    const novasInscricoes = [...inscricoesAulas, {
+      type: selectedEvent.type,
+      day: selectedEvent.day,
+      hour: selectedEvent.hour,
+      instructor: selectedEvent.instructor,
+      room: selectedEvent.room,
+      inscricaoData: new Date().toISOString()
+    }];
+    
+    localStorage.setItem('inscricoesAulas', JSON.stringify(novasInscricoes));
+    setInscricoesAulas(novasInscricoes);
+    
+    // Disparar evento para outros componentes saberem que houve alteração
+    window.dispatchEvent(new CustomEvent('inscricoes-aulas-updated'));
+    
     alert(`Inscrição realizada com sucesso para ${selectedEvent.type}`);
     setShowPopup(false);
+  };
+
+  const handleCancelarInscricao = () => {
+    if (!selectedEvent) return;
+    
+    if (!isInscrito(selectedEvent)) {
+      alert("Você não está inscrito nesta aula!");
+      return;
+    }
+    
+    if (window.confirm("Tem certeza que deseja cancelar esta inscrição?")) {
+      const novasInscricoes = inscricoesAulas.filter(
+        aula => !(aula.type === selectedEvent.type && 
+                aula.day === selectedEvent.day && 
+                aula.hour === selectedEvent.hour)
+      );
+      
+      localStorage.setItem('inscricoesAulas', JSON.stringify(novasInscricoes));
+      setInscricoesAulas(novasInscricoes);
+      
+      // Disparar evento para outros componentes saberem que houve alteração
+      window.dispatchEvent(new CustomEvent('inscricoes-aulas-updated'));
+      
+      alert("Inscrição cancelada com sucesso.");
+      setShowPopup(false);
+    }
   };
 
   return (
@@ -120,15 +199,19 @@ export default function ScheduleGrid({ allowedTypes }) {
               {days.map((day) => {
                 const key = `${day}-${hour}`;
                 const event = filteredEvents[key];
+                const inscrito = isInscrito(event);
                 return (
                   <div
                     key={key}
-                    className={`cell ${event ? 'has-event' : ''}`}
+                    className={`cell ${event ? 'has-event' : ''} ${inscrito ? 'inscrito' : ''}`}
                     onClick={() => handleCellClick(event)}
                   >
                     {event && (
                       <div className="event-card">
-                        <div className="event-basic">{event.type}</div>
+                        <div className="event-basic">
+                          {event.type}
+                          {inscrito && <span className="inscrito-badge">✓</span>}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -147,18 +230,22 @@ export default function ScheduleGrid({ allowedTypes }) {
               <button onClick={handleClosePopup} className="close-button">×</button>
             </div>
             <div className="popup-header">
-
               <h2>{selectedEvent.type}</h2>
             </div>
             <div className="popup-content-2">
+              <p><strong>Dia:</strong> {selectedEvent.day}</p>
+              <p><strong>Horário:</strong> {selectedEvent.hour}</p>
               <p><strong>Instrutor:</strong> {selectedEvent.instructor}</p>
               <p><strong>Duração:</strong> {selectedEvent.duration}</p>
               <p><strong>Nível:</strong> {selectedEvent.level}</p>
               <p><strong>Sala:</strong> {selectedEvent.room}</p>
-              <p><strong>Horário:</strong> {selectedEvent.capacity}</p>
             </div>
             <div className="popup-actions">
-              <button onClick={handleInscricao} className="inscricao-button">Inscrever-se</button>
+              {!isInscrito(selectedEvent) ? (
+                <button onClick={handleInscricao} className="inscricao-button">Inscrever-se</button>
+              ) : (
+                <button onClick={handleCancelarInscricao} className="cancelar-button">Cancelar Inscrição</button>
+              )}
             </div>
           </div>
         </div>

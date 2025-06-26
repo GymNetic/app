@@ -9,6 +9,7 @@ import Mensalidades from "../../components/Mensalidades.jsx";
 import PlanosData from "../../data/PlanosData.js";
 import { isAuthenticated, getUserData, logout, getToken } from "../../services/authService";
 import apiService from "../../services/apiService";
+import ScheduleGrid from "../../components/ScheduleGrid.jsx";
 
 function AreaCliente() {
     const [client, setClient] = useState(null);
@@ -24,6 +25,7 @@ function AreaCliente() {
     const [currentPlan, setCurrentPlan] = useState(null);
     const [showPlanChanged, setShowPlanChanged] = useState(false);
     const [dashboardData, setDashboardData] = useState(null);
+    const [inscricoesAulas, setInscricoesAulas] = useState([]);
     const location = useLocation();
     // REMOVIDO: refreshKey que estava causando re-renders desnecessários
 
@@ -31,6 +33,7 @@ function AreaCliente() {
 
     const menuItems = [
         { id: "conta", label: "Minha Conta", icon: User },
+        { id: "minhas-aulas", label: "Minhas Aulas", icon: Calendar },
         { id: "favoritos", label: "Exercícios Favoritos", icon: Heart },
         { id: "planos", label: "Planos de Treino", icon: BookOpen },
         { id: "pagamento", label: "Pagamentos", icon: CreditCard },
@@ -59,6 +62,10 @@ function AreaCliente() {
             setNome(userData.nome);
             setEmail(userData.email);
             setCurrentPlan(userData.currentPlan);
+
+            // Carregar inscrições de aulas do localStorage
+            const inscricoes = JSON.parse(localStorage.getItem('inscricoesAulas') || '[]');
+            setInscricoesAulas(inscricoes);
 
             // Apenas tenta carregar dashboard se não for para pular e se for a seção ativa
             if (!skipDashboard && activeSection === "dashboard") {
@@ -131,6 +138,18 @@ function AreaCliente() {
             window.removeEventListener('profile-updated', handleAuthChanged);
         };
     }, [navigate, fetchUserData]); // Dependências mínimas necessárias
+
+    // useEffect para inscrições em aulas
+    useEffect(() => {
+        const loadInscricoes = () => {
+            const inscricoes = JSON.parse(localStorage.getItem('inscricoesAulas') || '[]');
+            setInscricoesAulas(inscricoes);
+        };
+
+        loadInscricoes();
+        window.addEventListener('inscricoes-aulas-updated', loadInscricoes);
+        return () => window.removeEventListener('inscricoes-aulas-updated', loadInscricoes);
+    }, []);
 
     // useEffect separado para carregar dashboard quando necessário
     useEffect(() => {
@@ -229,6 +248,21 @@ function AreaCliente() {
         } catch (error) {
             console.error("Erro ao atualizar plano:", error);
             setError("Falha ao atualizar o plano. Tente novamente.");
+        }
+    };
+
+    const handleCancelarInscricao = (aulaIndex) => {
+        if (window.confirm("Tem certeza que deseja cancelar esta inscrição?")) {
+            const novasInscricoes = [...inscricoesAulas];
+            novasInscricoes.splice(aulaIndex, 1);
+            
+            localStorage.setItem('inscricoesAulas', JSON.stringify(novasInscricoes));
+            setInscricoesAulas(novasInscricoes);
+            
+            // Disparar evento para outros componentes saberem que houve alteração
+            window.dispatchEvent(new CustomEvent('inscricoes-aulas-updated'));
+            
+            alert("Inscrição cancelada com sucesso.");
         }
     };
 
@@ -348,143 +382,116 @@ function AreaCliente() {
                     </div>
                 );
 
+            case "minhas-aulas":
+                return (
+                    <div className="content-section">
+                        <h2 className="section-title">Minhas Aulas</h2>
+                        
+                        {inscricoesAulas.length === 0 ? (
+                            <div className="empty-inscricoes">
+                                <p>Você ainda não está inscrito(a) em nenhuma aula.</p>
+                                <p>Confira o calendário completo de aulas e inscreva-se!</p>
+                                <button 
+                                    className="btn-primary" 
+                                    onClick={() => setActiveSection("ver-aulas")}
+                                >
+                                    Ver Aulas Disponíveis
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="inscricoes-container">
+                                <h3>Aulas em que estás inscrito(a):</h3>
+                                <div className="inscricoes-lista">
+                                    {inscricoesAulas.map((aula, index) => (
+                                        <div key={index} className="inscricao-card">
+                                            <div className="inscricao-info">
+                                                <h4>{aula.type}</h4>
+                                                <p><strong>Dia:</strong> {aula.day}</p>
+                                                <p><strong>Horário:</strong> {aula.hour}</p>
+                                                <p><strong>Instrutor:</strong> {aula.instructor}</p>
+                                                <p><strong>Sala:</strong> {aula.room}</p>
+                                            </div>
+                                            <div className="inscricao-actions">
+                                                <button 
+                                                    onClick={() => handleCancelarInscricao(index)}
+                                                    className="btn-cancel"
+                                                >
+                                                    Cancelar Inscrição
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        
+                        <div className="ver-aulas-section">
+                            <h3>Todas as Aulas Disponíveis:</h3>
+                            <ScheduleGrid allowedTypes={null} />
+                        </div>
+                    </div>
+                );
+
             case "favoritos":
                 return (
-
                     <div className="content-section">
-
                         <h2 className="section-title">Exercícios Favoritos</h2>
-
                         <div className="favorites-grid">
-
                             {favoriteExercises.map(exercise => (
-
                                 <div key={exercise.id} className="exercise-card">
-
                                     <div className="exercise-header">
-
                                         <h3>{exercise.name}</h3>
-
-
                                         <Heart className="heart-icon filled" size={20} />
-
-
                                         <button
-
-
                                             onClick={() => handleUnfavorite(exercise.id, exercise.name)}
-
-
                                             className="unfavorite-button"
-
-
                                         >
-
                                         </button>
-
                                     </div>
-
                                     <p className="exercise-category">{exercise.category}</p>
-
-
                                     {exercise.photo && (
-
-
                                         <img
-
-
                                             src={exercise.photo}
-
-
                                             alt={exercise.name}
-
-
                                             className="exercise-photo"
-
-
                                         />
-
-
                                     )}
-
-
                                     <button
-
-
                                         onClick={() => handleUnfavorite(exercise.id, exercise.name)}
-
-
                                         className="desfavoritar-btn"
-
-
                                     >
-
-
                                         Desfavoritar
-
-
                                     </button>
-
                                 </div>
-
                             ))}
-
                         </div>
-
                     </div>
-
                 );
+                
             case "notificacoes":
                 return (
                 <NotificacoesPage/>
             );
             case "planos":
                 return (
-
-
                     <PlanoTreinoPage/>
-
-
                 );
             case "pagamento":
                 return (
-                                <div className="pagamentos-container">
-
-
-                                    {PlanosData.map((mensalidade, idx) => (
-
-
-                                        <Mensalidades
-
-
-                                            key={idx}
-
-
-                                            name={mensalidade.name}
-
-
-                                            price={mensalidade.price}
-
-
-                                            description={mensalidade.description}
-
-
-                                            features={mensalidade.features}
-
-
-                                            isCurrentPlan={currentPlan === mensalidade.name}
-
-
-                                            onPlanChange={handlePlanChange}
-
-
-                                        />
-
-
-                                    ))}
-
-                                </div>
-                            );
+                    <div className="pagamentos-container">
+                        {PlanosData.map((mensalidade, idx) => (
+                            <Mensalidades
+                                key={idx}
+                                name={mensalidade.name}
+                                price={mensalidade.price}
+                                description={mensalidade.description}
+                                features={mensalidade.features}
+                                isCurrentPlan={currentPlan === mensalidade.name}
+                                onPlanChange={handlePlanChange}
+                            />
+                        ))}
+                    </div>
+                );
             default:
                 return (<div>Selecione uma opção no menu.</div>);
         }
